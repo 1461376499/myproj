@@ -1,0 +1,7 @@
+{
+	"packageUrl": "http://193.168.5.26/gzdh/android/update001/PLAZA",
+	"assets": {},
+--[[	"remoteVersionUrl": "http://193.168.5.26/gzdh/android/update001/version/version.manifest",]--
+	"version": "1.1.1",
+	"remoteManifestUrl": "http://193.168.5.26/gzdh/android/update001/version/PLAZA.manifest"
+}
