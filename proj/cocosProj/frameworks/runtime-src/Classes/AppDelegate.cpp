@@ -101,6 +101,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     LuaStack* stack = engine->getLuaStack();
     stack->setXXTEAKeyAndSign("2dxLua", strlen("2dxLua"), "XXTEA", strlen("XXTEA"));
+	stack->addSearchPath("src/");
 
     //register custom function
     //LuaStack* stack = engine->getLuaStack();
