@@ -1,15 +1,23 @@
 --code by zpc
-local LuaClass = class("LuaClass", cc.Scene)
+local LuaClass = class("LuaClass", require('app.GameBaseLogic.BaseScene'))
 
 
 function LuaClass:ctor()
 	self:enableNodeEvents()
+	self:setName("GameSceneLogin")
+
+	self:loadWidget()
 end
 
 
 function LuaClass:onEnterTransitionFinish()
-	cc.Label:createWithSystemFont("Hello World", "Arial", 40)
-        :move(display.cx, display.cy + 200)
-        :addTo(self)
+	--todo play music
+	AudioEngine.playMusic("music/Music1.mp3", true)
+
+	--tode start login
+end
+
+function LuaClass:loadWidget()
+	
 end
 return LuaClass

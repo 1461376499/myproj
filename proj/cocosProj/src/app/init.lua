@@ -8,4 +8,6 @@ vec3 = cc.p;
 
 ccDirector = cc.Director:getInstance()
 
+ccScheduler = cc.Director:getInstance():getScheduler()
+
 ccUserDefault = cc.UserDefault:getInstance()
