@@ -16,7 +16,7 @@ if device.platform == "android" or device.platform == "ios" then
 	ccFileUtils:addSearchPath(ccFileUtils:getWritablePath() .. "update/res/", true)
 	ccFileUtils:addSearchPath(ccFileUtils:getWritablePath() .. "update/src/", true)
 
-elseif device.platform == "windows" then			-- windows don't soppurt hot update since
+elseif device.platform == "windows" then			-- windows don't soppurt hot update,temporary
 	g_NeedHotUpdate = false
 end
 
