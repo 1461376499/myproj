@@ -113,11 +113,11 @@ function GameMusicHelper:getMusicName(key)
     end
 end
 
-function GameBGMHelper:getMusicFilePath(key)
+function GameMusicHelper:getMusicFilePath(key)
     return string.format( "sfx/%s.mp3", self:getMusicName(key))
 end
 
-function GameBGMHelper:changeMusicState(state)
+function GameMusicHelper:changeMusicState(state)
 
     cc.UserDefault:getInstance():setBoolForKey("isPlayBackgroundMusic", state)
 
@@ -128,7 +128,7 @@ function GameBGMHelper:changeMusicState(state)
     end
 end
 
-function GameBGMHelper:changeEffectState(state)
+function GameMusicHelper:changeEffectState(state)
 
     cc.UserDefault:getInstance():setBoolForKey("isPlayEffectMusic", state)
 
@@ -141,15 +141,15 @@ function GameBGMHelper:changeEffectState(state)
     end
 end
 
-function GameBGMHelper:getMusicState()
+function GameMusicHelper:getMusicState()
     return cc.UserDefault:getInstance():getBoolForKey("isPlayBackgroundMusic", true)
 end
 
-function GameBGMHelper:getEffectState()
+function GameMusicHelper:getEffectState()
     return cc.UserDefault:getInstance():getBoolForKey("isPlayEffectMusic", true)
 end
 
-function GameBGMHelper:getMusicKey()
+function GameMusicHelper:getMusicKey()
     local key = "Music1"
 
     if sceneManager:isFightScene() then  --非挂机战斗场景
@@ -168,7 +168,7 @@ function GameBGMHelper:getMusicKey()
     return key
 end
 
-return GameBGMHelper
+return GameMusicHelper
 
 
 
