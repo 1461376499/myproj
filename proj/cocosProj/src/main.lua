@@ -1,7 +1,6 @@
 require "config"
-require "app.init"
 require "cocos.init"
-
+require "app.init"
 
 
 package.path = package.path .. ";src/"
