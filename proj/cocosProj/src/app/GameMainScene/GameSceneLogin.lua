@@ -18,6 +18,7 @@ function LuaClass:onEnterTransitionFinish()
 end
 
 function LuaClass:loadWidget()
-	
+	self.loginLayer = require("app.GameMainUI.UILoginLayer").new()
+		:addTo(self)
 end
 return LuaClass

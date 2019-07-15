@@ -1,4 +1,4 @@
----弹窗
+---[[弹窗自动管理]]
 
 local GamePopWindowHelper = class("GamePopWindowHelper")
 

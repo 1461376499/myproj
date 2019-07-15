@@ -52,7 +52,7 @@ end
 function GameUICacheHelper:_create(_key)
 	self.cacheIdx = self.cacheIdx + 1
 	
-	local obj = CommonUIUtils:loadWidget(key)
+	local obj = CommonHelper:loadWidget(key)
 	obj.poolKey = _key
 	obj.inPool = false
 	obj.index = self.cacheIdx

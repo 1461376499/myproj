@@ -10,10 +10,10 @@ function LuaClass:ctor()
 
 	cc.Director:getInstance():replaceScene(self)
 
-    local is_hot_finish = cc.UserDefault:getInstance():getIntegerForKey("is_hot_finish", 0)
+    local is_hot_finish = cc.UserDefault:getInstance():getIntegerForKey("is_last_update_finish", 0)
     if is_hot_finish == 1 then
         ccFileUtils:removeDirectory(ccFileUtils:getWritablePath().."update/")
-        ccUserDefault:setIntegerForKey("is_hot_finish", 0)
+        ccUserDefault:setIntegerForKey("is_last_update_finish", 0)
     end
 	--todo  load logo and splash
 end

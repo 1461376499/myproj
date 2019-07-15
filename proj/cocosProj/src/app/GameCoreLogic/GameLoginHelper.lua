@@ -9,7 +9,7 @@ local proloadingList = {
 		--json.encode_sparse_array(true)		//这是cjson里的极度稀疏数组,cjson.encode({[11] = "data"})，将输出:{"1000":"data"},  json.encode({[11] = "data"})，将输出:[null,null,null,null,null,null,null,null,null,null,"data"]
 	end,
 	function()
-		UIUtils = require("app.CommonUtils.CommonUIUtils").new()
+		CommonHelper = require("app.CommonUtils.CommonHelper").new()
 		UIDialog = require("app.CommonUtils.CommonUIDialog").new()
 	end,
 	function()
@@ -39,8 +39,6 @@ local updateFrames = {
 
 function GameLoginHelper:ctor()
 	self._hotUpdated = true
-
-
 end
 
 

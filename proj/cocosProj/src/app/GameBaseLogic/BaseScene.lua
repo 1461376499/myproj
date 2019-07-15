@@ -3,7 +3,7 @@ local BaseScene = class("BaseScene", cc.Scene)
 
 
 function BaseScene:ctor()
-
+	
 
 
 end

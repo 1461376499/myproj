@@ -1,3 +1,7 @@
+
+--[[µ¯´°]]
+
+
 local CommonUIDialog = class("CommonUIDialog", cc.Layer)
 
 function CommonUIDialog:ctor()
