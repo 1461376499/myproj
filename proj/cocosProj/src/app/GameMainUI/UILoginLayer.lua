@@ -2,16 +2,19 @@
 
 local UILoginLayer = class("UILoginLayer", require('app.GameBaseLogic.BaseUI'))
 
-UILoginLayer.UI_File_CSB = "layer/login/login_register_mail.csb"
-UILoginLayer.Event_Tag = "EVENT_UILoginLayer"
+UILoginLayer.CSB_BINDING = "layer/login/login_register_mail.csb"
+UILoginLayer.IMPLENT_BINDING = "UILoginLayerImplent"
 
 function UILoginLayer:ctor()
 	UILoginLayer.super.ctor(self)
 end
 
+--多态函数
 function UILoginLayer:initUI()
 	self.closeBtn = ccUtils.findChild(self.widget, "closeBtn")
-	self.closeBtn:addClickEventListener(handler(self, self.close))
+	self.closeBtn:addClickEventListener(function()
+		self.Implent:dispatchEvent("LVUP", "你好")
+	end)
 
 	self.panel_mail = self.widget:getChildByName("panel_mail")
 	self.panel_mail:setVisible(false)
@@ -19,8 +22,12 @@ function UILoginLayer:initUI()
 	self.panel_password:setVisible(false)
 end
 
-function UILoginLayer:initEvents()
-	
+
+--多态函数
+function UILoginLayer:addEvents()
+	self:addCustomEvent("LVUP", function(data)
+		print("你好",data)
+	end)
 end
 
 return UILoginLayer

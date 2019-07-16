@@ -1,6 +1,24 @@
+--code by ZPC,2017/07/16
+
+--[[
+		内部消息定义
+  ]]--
+
 local GameEventDef = GameEventDef or {}
 
--- 英雄信息
+function GameEventDef.DispathEvent(events,  sub,  data)
+	local customEvent = cc.EventCustom:new(events["KEY"])
+	customEvent["_userData"] = {
+		sub = events[sub],
+		data = data
+	}
+	ccDirector:getEventDispatcher():dispatchEvent(customEvent)
+end
+
+--[[  
+	英雄信息
+	升级
+  ]]--
 GameEventDef["HEROINFO"] = {
 	["KEY"] 	= "kEventDef.HeroInfo",
 	["LVUP"]	= "kEventDef.HeroInfo.LvUp",
@@ -9,6 +27,8 @@ GameEventDef["HEROINFO"] = {
 	["ACTIVE"]	= "kEventDef.HeroInfo.Active",
 	["AWAKE"]	= "kEventDef.HeroInfo.Awake",
 }
+
+
 
 
 return GameEventDef

@@ -13,6 +13,10 @@ local proloadingList = {
 		UIDialog = require("app.CommonUtils.CommonUIDialog").new()
 	end,
 	function()
+		GameEventDef = require("app.GameCoreLogic.GameEventDef")
+		BaseImplent = require("app.GameBaseLogic.BaseImplent").new()
+	end,
+	function()
 		PopWindowHelper = require("app.GameCoreLogic.GamePopWindowHelper").new()
 		MusicHelper = require("app.GameCoreLogic.GameMusicHelper").new()
 	end,
@@ -38,7 +42,7 @@ local updateFrames = {
 }
 
 function GameLoginHelper:ctor()
-	self._hotUpdated = true
+	self._hotUpdated = false
 end
 
 

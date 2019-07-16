@@ -2,10 +2,10 @@
 local MainScene = class("MainScene", cc.load("mvc").ViewBase)
 
 function MainScene:onCreate()
-    -- add background image
---    display.newSprite("HelloWorld.png")
---        :move(display.center)
---        :addTo(self)
+     --add background image
+    display.newSprite("HelloWorld.png")
+        :move(display.center)
+        :addTo(self)
 
 --    -- add HelloWorld label
 --    cc.Label:createWithSystemFont("Hello World", "Arial", 40)
@@ -19,6 +19,16 @@ function MainScene:onCreate()
 	print(md4)
 	print(md5)
 	print(md6)
+	local path = "layer/login/login_register_mail.csb"
+--	path = cc.FileUtils:getInstance():fullPathForFilename(path);
+--	print("path", path)
+	print("default=",ccFileUtils:getDefaultResourceRootPath())
+--	path = ccFileUtils:getSearchPaths()
+--	dump(path)
+--	path =  ccFileUtils:getOriginalSearchPaths()
+--	dump(path)
+--	cc.CSLoader:createNode(path)
+--	:addTo(self)
 end
 
 return MainScene

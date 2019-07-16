@@ -16,5 +16,9 @@ function GameSceneHelper:pushScene()
 
 end
 
+function GameSceneHelper:getRunningScene()
+	return ccDirector:getRunningScene()
+end
+
 
 return GameSceneHelper

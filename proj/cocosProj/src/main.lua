@@ -5,6 +5,7 @@ require "app.init"
 
 package.path = package.path .. ";src/"
 
+
 cc.FileUtils:getInstance():setPopupNotify(false)
 
 g_NeedHotUpdate = false
@@ -16,6 +17,7 @@ if device.platform == "android" or device.platform == "ios" then
 	ccFileUtils:addSearchPath(ccFileUtils:getWritablePath() .. "update/src/", true)
 
 elseif device.platform == "windows" then			-- windows don't soppurt hot update,temporary
+	ccFileUtils:addSearchPath(ccFileUtils:getDefaultResourceRootPath() .. "res/")
 	g_NeedHotUpdate = false
 end
 
