@@ -38,7 +38,9 @@ function GamePopWindowHelper:remove()
 	end
 	local wind = self.popWindows[1]
 	if wind then
-		wind:setVisible(true)
+		wind:hideMask()
+		--wind:doShowAnimation()
+		wind:fadeIn()
 	end
 end
 

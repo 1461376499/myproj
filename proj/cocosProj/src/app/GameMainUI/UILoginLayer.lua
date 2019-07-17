@@ -13,13 +13,17 @@ end
 function UILoginLayer:initUI()
 	self.closeBtn = ccUtils.findChild(self.widget, "closeBtn")
 	self.closeBtn:addClickEventListener(function()
-		self.Implent:dispatchEvent("LVUP", "ÄãºÃ")
+		self:close()
 	end)
 
 	self.panel_mail = self.widget:getChildByName("panel_mail")
 	self.panel_mail:setVisible(false)
+
 	self.panel_password = self.widget:getChildByName("panel_password")
-	self.panel_password:setVisible(false)
+	self.panel_password.button = self.panel_password:getChildByName("button")
+	self.panel_password.button:addClickEventListener(function()
+		CommonHelper:addUI(UIDefine.UIRegister)
+	end)
 end
 
 

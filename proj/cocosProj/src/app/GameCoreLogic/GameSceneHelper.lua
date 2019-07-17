@@ -16,8 +16,12 @@ function GameSceneHelper:pushScene()
 
 end
 
+function GameSceneHelper:setRunningScene(scene)
+	self.runningScene = scene
+end
+
 function GameSceneHelper:getRunningScene()
-	return ccDirector:getRunningScene()
+	return self.runningScene
 end
 
 

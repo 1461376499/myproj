@@ -1,14 +1,14 @@
 --code by zpc
 LoginHelper = require("app.GameCoreLogic.GameLoginHelper").new()
 
-local LuaClass = class("LuaClass", require('app.GameBaseLogic.BaseScene'))
+local LuaClass = class("LuaClass", cc.Scene)
 
 function LuaClass:ctor()
 	self:enableNodeEvents()
-
-
-
+	self:setName("GameSceneStart")
 	cc.Director:getInstance():replaceScene(self)
+
+	SceneHelper:setRunningScene(self)
 
     local is_hot_finish = cc.UserDefault:getInstance():getIntegerForKey("is_last_update_finish", 0)
     if is_hot_finish == 1 then

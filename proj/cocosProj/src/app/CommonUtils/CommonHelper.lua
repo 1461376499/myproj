@@ -4,8 +4,30 @@ function CommonHelper:ctor()
 	
 
 end
+
+--添加一个UI
+--@param1:UIDefine里定义的名字
+--@param2:是否是弹窗,默认都是弹窗
+--@param3:父节点
+--@param4:层级
+--@param5:标识
+function CommonHelper:addUI(uiDef, isDialog, parent, zorder, tag)
+	local script = uiDef.script	
+	if isDialog == nil then
+		isDialog = true
+	end
+	parent   = parent   or SceneHelper:getRunningScene()
+	zorder   = zorder   or 0
+	tag      = tag	    or ""
+	local ui = require(script).new()
+	if isDialog then
+		ui:addToNode(parent, zorder, tag)
+		ui:show()
+	end
+	return ui
+end
+
 function CommonHelper:loadWidget(csb)
-	print("csb==%s",csb)
 	local widget = cc.CSLoader:createNode(csb)
 	widget:setPosition(display.center)
 	widget:setAnchorPoint(ccAchorPointCenter)

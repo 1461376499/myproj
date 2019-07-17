@@ -7,22 +7,29 @@ local Png = ".png"
 local proloadingList = {
 	function()
 		--json.encode_sparse_array(true)		//这是cjson里的极度稀疏数组,cjson.encode({[11] = "data"})，将输出:{"1000":"data"},  json.encode({[11] = "data"})，将输出:[null,null,null,null,null,null,null,null,null,null,"data"]
+		ConfigHelper	= require("app.GameCoreLogic.GameConfigHelper")
+		GameEventDef	= require("app.GameCoreLogic.GameEventDef")
 	end,
 	function()
-		CommonHelper = require("app.CommonUtils.CommonHelper").new()
-		UIDialog = require("app.CommonUtils.CommonUIDialog").new()
+		UIDefine		= require("app.GameCoreLogic.UIDefine")
 	end,
 	function()
-		GameEventDef = require("app.GameCoreLogic.GameEventDef")
-		BaseImplent = require("app.GameBaseLogic.BaseImplent").new()
+		CommonHelper	= require("app.CommonUtils.CommonHelper").new()				
+	end,
+	function()
+		BaseUI			= require("app.GameBaseLogic.BaseUI")
+		BaseScene		= require("app.GameBaseLogic.BaseScene")
+	end,
+	function()
+		BaseImplent		= require("app.GameBaseLogic.BaseImplent").new()
 	end,
 	function()
 		PopWindowHelper = require("app.GameCoreLogic.GamePopWindowHelper").new()
-		MusicHelper = require("app.GameCoreLogic.GameMusicHelper").new()
+		MusicHelper		= require("app.GameCoreLogic.GameMusicHelper").new()
 	end,
 	function()
-		UICacheHelper = require("app.GameCoreLogic.GameUICacheHelper").new()
-		SceneHelper = require("app.GameCoreLogic.GameSceneHelper").new()
+		UICacheHelper	= require("app.GameCoreLogic.GameUICacheHelper").new()
+		SceneHelper		= require("app.GameCoreLogic.GameSceneHelper").new()
 	end,
 }
 

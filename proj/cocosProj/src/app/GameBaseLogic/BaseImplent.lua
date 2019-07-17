@@ -12,4 +12,10 @@ function BaseImplent:dispatchEvent(sub, data)
 	GameEventDef.DispathEvent(self.VIEW_EVENT_BINDING, sub, data)
 end
 
+--销毁实例
+function BaseImplent:destory()
+	
+end
+
+
 return BaseImplent
