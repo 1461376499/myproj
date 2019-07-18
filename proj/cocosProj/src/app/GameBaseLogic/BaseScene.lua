@@ -1,11 +1,9 @@
 
 local BaseScene = class("BaseScene", cc.Scene)
+BaseScene.SceneName = ""
 
-
-function BaseScene:ctor()
-	
-
-
+function BaseScene:ctor()	
+	SceneHelper:setRunningScene(self)
 end
 
 --please override
@@ -26,7 +24,8 @@ end
 
 --please override
 function BaseScene:onExit()
-	self:disableNodeEvents()	
+	self:disableNodeEvents()
+	PopWindowHelper:cleanup(true)	
 end
 
 

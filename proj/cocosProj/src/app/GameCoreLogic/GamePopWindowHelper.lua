@@ -49,8 +49,8 @@ function GamePopWindowHelper:cleanup(sn)
 	if sn then
 		for i = #self.popWindows, 1, -1 do
 			local window = self.popWindows[i]
-			if window.scene == ccDirector:getRunningScene() then
-				table.remove()
+			if window.scene == SceneHelper:getRunningScene() then
+				table.remove(self.popWindows, i)
 			end
 		end
 	else

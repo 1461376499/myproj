@@ -3,9 +3,9 @@ local LuaClass = class("LuaClass", BaseScene)
 
 
 function LuaClass:ctor()
+	LuaClass.super.ctor(self)
 	self:enableNodeEvents()
 	self:setName("GameSceneLogin")
-	SceneHelper:setRunningScene(self)
 end
 
 function LuaClass:onEnter()
