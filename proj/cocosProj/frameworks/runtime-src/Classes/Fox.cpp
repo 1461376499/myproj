@@ -2,6 +2,7 @@
 //#include "scripting/lua-bindings/manual/CCComponentLua.h"
 //#include "scripting/lua-bindings/manual/tolua_fix.h"
 #include "scripting/lua-bindings/manual/LuaBasicConversions.h"
+#include "platform/CCPlatformMacros.h"
 
 int Fox::getFileMD5(lua_State* tolua_S)
 {
@@ -79,11 +80,42 @@ int Fox::getDataMD5(lua_State* tolua_S)
 	return 0;
 }
 
-int Fox::captureNode(lua_State* L, cocos2d::Node* startNode, float scale)
+int Fox::captureNode(lua_State* L)
 {
 
-	cocos2d::Image* image = cocos2d::utils::captureNode(startNode, scale);
+	//cocos2d::Image* image = cocos2d::utils::captureNode(startNode, scale);
 
+	return 0;
+}
+
+int Fox::luaLog(lua_State* L)
+{
+	int argc = 0;
+
+	bool ok = true;
+#if COCOS2D_DEBUG >= 1
+	tolua_Error tolua_err;
+#endif
+	argc = lua_gettop(L);
+
+	std::string content;
+	if (argc == 1)
+	{
+		ok &= luaval_to_std_string(L, 1, &content, "Fox.Log");
+		if (!ok)
+		{
+			tolua_error(L, "invalid arguments in function 'Fox.Log'", nullptr);
+			return 0;
+		}
+		CCLOG("%s", content);
+	}
+	luaL_error(L, "%s has wrong number of arguments: %d, was expecting %d \n", "Fox.Log", argc, 1);
+	return 0;
+
+#if COCOS2D_DEBUG >= 1
+	tolua_lerror:
+				tolua_error(L, "#ferror in function 'Fox.getDataMD5'.", &tolua_err);
+#endif
 	return 0;
 }
 
@@ -94,5 +126,6 @@ void registerFoxPackage(lua_State*tolua_S)
 	tolua_beginmodule(tolua_S, "Fox");
 		tolua_function(tolua_S, "getFileMD5", Fox::getFileMD5);
 		tolua_function(tolua_S, "getDataMD5", Fox::getDataMD5);
+		tolua_function(tolua_S, "luaLog", Fox::luaLog);
 	tolua_endmodule(tolua_S);
 }

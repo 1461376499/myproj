@@ -10,7 +10,9 @@ namespace Fox
 	int getFileMD5(lua_State* tolua_S);
 	int getDataMD5(lua_State* tolua_S);
 
-	int captureNode(lua_State* tolua_S, cocos2d::Node* startNode, float scale = 1.0f);
+	int captureNode(lua_State* tolua_S);
+
+	int luaLog(lua_State* tolua_S);
 };
 
 extern void registerFoxPackage(lua_State*tolua_S);
