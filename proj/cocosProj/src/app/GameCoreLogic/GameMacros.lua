@@ -32,11 +32,11 @@ local GameMacros = {
 		FORMAT_NORMAL      = 0,
 		-- 百分比
 		FORMAT_PERCENTAGE  = 1,
-		-- 4位数字
+		-- 4位数
 		FORMAT_NUMBER_FOUR = 2,
-		-- 5位数字
+		-- 5位数
 		FORMAT_NUMBER_FIVE = 3,
-		-- 6们数字
+		-- 6位数
 		FORMAT_NUMBER_SIX  = 4,
 		-- 小数
 		FORMAT_NUMBER_FLOAT= 5
@@ -44,6 +44,14 @@ local GameMacros = {
 
 	Language = {
 		
+	},
+
+	ShaderResources = {
+		--置灰
+		Grey = 	{key = "GREY",vert = "shader/ui_grey.vsh", frag = "shader/ui_grey.fsh"},
+
+		--流光
+		Flow_Light	= {key = "Flow_Light",vert = "", frag = ""},
 	}
 }
 

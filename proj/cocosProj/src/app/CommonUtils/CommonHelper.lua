@@ -581,5 +581,15 @@ function CommonHelper:newTTFFontLabel(str,_bmfontPath,fontsize,size,type1,type2)
     return _label
 end
 
+--流光
+function CommonHelper:shader_Flow_Light(node, func)
+	ShaderHelper:render(node, Macros.ShaderResources.Flow_Light, func)
+end
+
+--置灰
+function CommonHelper:shader_Grey(node, func)
+	ShaderHelper:render(node, Macros.ShaderResources.Grey, func)
+end
+
 
 return CommonHelper

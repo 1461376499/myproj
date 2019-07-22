@@ -19,6 +19,7 @@ local proloadingList = {
 	end,
 	function()
 		GlobalHelper = require("app.GameCoreLogic.GameGlobalHelper")
+		ShaderHelper = require("app.GameCoreLogic.GameShaderHelper")
 	end,
 	function()
 		BaseUI			= require("app.GameBaseLogic.BaseUI")

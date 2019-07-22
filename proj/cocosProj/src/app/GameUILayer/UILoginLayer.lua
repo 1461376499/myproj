@@ -25,6 +25,8 @@ function UILoginLayer:initUI()
 	local text = CommonHelper:newBMFontLabel("5")
 	:addTo(self)
 	:setPosition(500,300)
+
+	CommonHelper:shader_Grey(self)
 end
 
 
