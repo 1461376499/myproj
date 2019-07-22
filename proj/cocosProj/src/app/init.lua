@@ -22,6 +22,7 @@ ccUtils = cc.utils
 
 release_print = release_print
 
+ccLuaCast = tolua.cast
 
 
 
@@ -29,5 +30,6 @@ local Node = cc.Node
 --获取节点坐标的节点中心位置
 function Node:getCenter()
 	local size = self:getContentSize()
-	return cc.p(size.width * 0.5, size.height * 0.5)
+	local sx, sy = self:getScaleX(), self:getScaleY()
+	return cc.p(size.width * sx * 0.5, size.height * sy * 0.5)
 end

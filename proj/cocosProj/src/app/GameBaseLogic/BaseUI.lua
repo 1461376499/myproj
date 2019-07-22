@@ -4,30 +4,36 @@ local CommonUIDialog = require("app.CommonUtils.CommonUIDialog")
 
 local BaseUI = class("BaseUI", cc.Layer)
 
-BaseUI.CSB_BINDING = ""				--CSB文件路径		[[请重写]]
-BaseUI.IMPLENT_BINDING = 0			--数据层实例		[[请重写]]
-
-function BaseUI:ctor(...)
+--不要在子类和基本的构造函数里执行太多的代码，否则会使init函数的UI初始化变得缓慢
+function BaseUI:ctor()
 	self.EventArray = {}
 	self:enableNodeEvents()
+
+	self:setCascadeOpacityEnabled(true)
+	self.scene = SceneHelper:getRunningScene()
+end
+
+function BaseUI:onEnterTransitionFinish()
+	if self.openCallback then	--UI打开后才调用openCb,不调用父节点弹窗的openCb
+		self.openCallback()
+	end
+end
+
+--初始化
+--@prama1 uidef
+--@prama2 其他参数
+function BaseUI:init(uidef, args)
+	self.csbBinding = uidef.csb
+	self.implentBinding = uidef.implent
+	self.args = args
 
 	self:_bindImplent()
 	self:_addEventDef()
 	self:_loadCsb()
 
 	self:initUI()
-	self:initData(...)
+	self:initData(args)
 	self:addEvents()
-
-	self:setCascadeOpacityEnabled(true)
-
-	self.scene = SceneHelper:getRunningScene()
-end
-
-function BaseUI:onEnterTransitionFinish()
-	if self.openCb then	--由于UI是弹窗的子节点,比弹窗后创建，所以这里在UI打开后才调用openCb,不调用父节点弹窗的openCb
-		self.openCb()
-	end
 end
 
 --多态函数/初始化UI
@@ -77,9 +83,9 @@ function BaseUI:close()
 		self.dialogLayer:close()
 	else
 		self:runAction(cc.RemoveSelf:create())
-		if self.closeCb then
-			self.closeCb()
-			self.closeCb = nil
+		if self.closeCallback then
+			self.closeCallback()
+			self.closeCallback = nil
 		end
 	end
 end
@@ -89,7 +95,7 @@ function BaseUI:setOpenCallback(cb)
 	if self.dialogLayer then
 		self.dialogLayer:setOpenCallback(cb)
 	else
-		self.openCb = cb
+		self.openCallback = cb
 	end
 	return self
 end
@@ -99,15 +105,15 @@ function BaseUI:setClosedCallback(cb)
 	if self.dialogLayer then
 		self.dialogLayer:setClosedCallback(cb)
 	else
-		self.closeCb = cb
+		self.closeCallback = cb
 	end
 	return self
 end
 
 --添加到节点
-function BaseUI:addToNode(toNode, zOrder, tag)
+function BaseUI:addToNode(toNode)
 	local dialog = CommonUIDialog.new(self)
-	dialog:addToNode(toNode, zOrder)
+	dialog:addToNode(toNode)
 	self.dialogLayer = dialog
 	return self
 end
@@ -125,21 +131,19 @@ end
 -----------------------------------internal function ---------------------------------------------
 --加载实例
 function BaseUI:_bindImplent()
-	if self.IMPLENT_BINDING == 0 then
+	if self.IMPLENT_BINDING == nil then
 		return
 	end
-	self.Implent = require("app.GameMainUI.UIImplentLogic.".. self.IMPLENT_BINDING).new()
+	self.Implent = require(self.implentBinding).new()
 end
 
 
 --加载csb文件
 function BaseUI:_loadCsb()
-	if self.CSB_BINDING == "" then
+	if self.csbFile == "" then
 		return;
 	end
-	local fullPath = ccFileUtils:fullPathForFilename("main.lua")
-	print("加载CSB",fullPath)
-	local widget = CommonHelper:loadWidget(self.CSB_BINDING)
+	local widget = CommonHelper:loadWidget(self.csbBinding)
 		:addTo(self)
 		:setAnchorPoint(ccAchorPointCenter)
 		:setPosition(self:getCenter())

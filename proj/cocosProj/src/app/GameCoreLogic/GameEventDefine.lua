@@ -4,9 +4,9 @@
 		内部消息定义
   ]]--
 
-local GameEventDef = GameEventDef or {}
+local GameEventDefine = GameEventDefine or {}
 
-function GameEventDef.DispathEvent(events,  sub,  data)
+function GameEventDefine.DispathEvent(events,  sub,  data)
 	local customEvent = cc.EventCustom:new(events["KEY"])
 	customEvent["_userData"] = {
 		sub = events[sub],
@@ -19,7 +19,7 @@ end
 	英雄信息
 	升级
   ]]--
-GameEventDef["HEROINFO"] = {
+GameEventDefine["HEROINFO"] = {
 	["KEY"] 	= "kEventDef.HeroInfo",
 	["LVUP"]	= "kEventDef.HeroInfo.LvUp",
 	["TIERUP"]	= "kEventDef.HeroInfo.TierUp",
@@ -31,4 +31,4 @@ GameEventDef["HEROINFO"] = {
 
 
 
-return GameEventDef
+return GameEventDefine

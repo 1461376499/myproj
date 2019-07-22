@@ -10,7 +10,7 @@ end
 --添加一个新的弹窗
 function GamePopWindowHelper:add(window)
 	
-	self:hideCur()
+	self:hideCurWindow()
 	table.insert(self.popWindows, 1, window)
 	self:showTop()
 end
@@ -24,7 +24,7 @@ function GamePopWindowHelper:showTop()
 end
 
 --隐藏当前的弹窗
-function GamePopWindowHelper:hideCur()
+function GamePopWindowHelper:hideCurWindow()
 	if #self.popWindows > 0 then
 		local wind = self.popWindows[1]
 		wind:setVisible(false)
@@ -39,7 +39,6 @@ function GamePopWindowHelper:remove()
 	local wind = self.popWindows[1]
 	if wind then
 		wind:hideMask()
-		--wind:doShowAnimation()
 		wind:fadeIn()
 	end
 end
@@ -47,10 +46,10 @@ end
 --清理所有弹窗
 function GamePopWindowHelper:cleanup(sn)
 	if sn then
-		for i = #self.popWindows, 1, -1 do
-			local window = self.popWindows[i]
+		for index = #self.popWindows, 1, -1 do
+			local window = self.popWindows[index]
 			if window.scene == SceneHelper:getRunningScene() then
-				table.remove(self.popWindows, i)
+				table.remove(self.popWindows, index)
 			end
 		end
 	else

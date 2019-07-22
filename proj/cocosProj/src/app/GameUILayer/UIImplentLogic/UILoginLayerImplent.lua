@@ -2,7 +2,7 @@
 local UILoginLayerImplent = class("UILoginLayerImplent", BaseImplent)
 
 UILoginLayerImplent.EVENT_TAG_BINDING  = "UILoginLayerImplent"
-UILoginLayerImplent.VIEW_EVENT_BINDING = GameEventDef["HEROINFO"]
+UILoginLayerImplent.VIEW_EVENT_BINDING = EventDefine["HEROINFO"]
 
 
 function UILoginLayerImplent:ctor()

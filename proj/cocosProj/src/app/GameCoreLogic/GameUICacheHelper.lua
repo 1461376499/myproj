@@ -1,6 +1,6 @@
 --[[
-	对象缓存
-	]]--
+	UI对象缓存
+  ]]--
 local GameUICacheHelper = class("GameUICacheHelper")
 
 --对象池

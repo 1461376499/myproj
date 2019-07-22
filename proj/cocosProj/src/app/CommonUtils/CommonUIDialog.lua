@@ -32,7 +32,7 @@ function CommonUIDialog:initUI()
 	self.uiNode:addTo(self, 20)
 		:setIgnoreAnchorPointForPosition(false)
 		:setAnchorPoint(ccAchorPointCenter)
-		:setTag(ConfigHelper.Layer_Tag.DialogContent)
+		:setTag(Macros.Layer_Tag.DialogContent)
 		:setCascadeOpacityEnabled(true)
 		:setPosition(ccp(winSize.width * 0.5, winSize.height * 0.5))
 
@@ -46,13 +46,12 @@ function CommonUIDialog:onEnterTransitionFinish()
 end
 
 function CommonUIDialog:fadeIn()
-	--self:runAction(cc.FadeIn:create(0.2))
 	self:setVisible(true)
 end
 
 --显示当前UI
 function CommonUIDialog:show(showType)
-	self.showType = showType or ConfigHelper.DialogOpenType.ScaleTo
+	self.showType = showType or Macros.DialogOpenType.ScaleTo
 
 	self.uiNode:setVisible(false)
 	self:setVisible(true)
@@ -62,7 +61,7 @@ function CommonUIDialog:show(showType)
 	self:doShowAnimation(showType)
 end
 
---渐变效果
+--缓冲渐变效果
 function CommonUIDialog:doShowAnimation(showType)
 	self:setVisible(true)
 	local function cb()
@@ -82,7 +81,7 @@ function CommonUIDialog:doShowAnimation(showType)
 	))
 end
 
---渐变效果
+--缓冲渐变效果
 function CommonUIDialog:doCloseAnimation(showType)
 
 	--即将关闭回调
@@ -90,6 +89,7 @@ function CommonUIDialog:doCloseAnimation(showType)
 		self.willCloseCallback()
 	end
 	
+	--关闭后的回调
 	local function closedCallback()		
 		if self.closedCallback then
 			self.closedCallback()
@@ -98,6 +98,7 @@ function CommonUIDialog:doCloseAnimation(showType)
 		PopWindowHelper:remove()
 		self:runAction(cc.RemoveSelf:create())
 	end
+
 	local originScale = self.uiNode.originScale
 	self.uiNode:stopAllActions()
 	self.uiNode:runAction(cc.Sequence:create(
@@ -129,12 +130,12 @@ function CommonUIDialog:hideMask(__direct)
 end
 
 --添加到节点
-function CommonUIDialog:addToNode(toNode, zOrder)
+function CommonUIDialog:addToNode(toNode)
 	toNode = toNode or SceneHelper:getRunningScene()
 	local winSize = ccDirector:getWinSize()
 	self:setIgnoreAnchorPointForPosition(false)
 	self:setAnchorPoint(ccAchorPointCenter)
-	self:addTo(toNode, zOrder or ConfigHelper.ZOrderControl.Dialog)
+	self:addTo(toNode, Macros.ZOrderControl.Dialog)
 	self:setPosition(ccp(winSize.width * 0.5, winSize.height * 0.5))
 end
 

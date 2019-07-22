@@ -1,6 +1,6 @@
 --code by ZPC 2019/07/17
 
-local GameConfigHelper = {
+local GameMacros = {
 
 	--场景层级
 	ZOrderControl = {
@@ -24,8 +24,28 @@ local GameConfigHelper = {
 		Direct = 0,
 		ScaleTo = 1,
 		ScaleEase = 2
+	},
+	
+	--数字样式
+	NumberFormat = {
+		-- 默认
+		FORMAT_NORMAL      = 0,
+		-- 百分比
+		FORMAT_PERCENTAGE  = 1,
+		-- 4位数字
+		FORMAT_NUMBER_FOUR = 2,
+		-- 5位数字
+		FORMAT_NUMBER_FIVE = 3,
+		-- 6们数字
+		FORMAT_NUMBER_SIX  = 4,
+		-- 小数
+		FORMAT_NUMBER_FLOAT= 5
+	},
+
+	Language = {
+		
 	}
 }
 
 
-return GameConfigHelper
+return GameMacros

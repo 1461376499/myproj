@@ -20,7 +20,7 @@ function LuaClass:onEnterTransitionFinish()
 end
 
 function LuaClass:loadWidget()
-	self.loginLayer = CommonHelper:addUI(UIDefine.UILoginLayer, true)
+	self.loginLayer = CommonHelper:addUI(UIDefine.UILoginLayer)
 		:setClosedCallback(function() print("关闭了界面")  end )
 end
 return LuaClass

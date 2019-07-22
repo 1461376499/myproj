@@ -2,9 +2,6 @@
 
 local UILoginLayer = class("UILoginLayer", require('app.GameBaseLogic.BaseUI'))
 
-UILoginLayer.CSB_BINDING = "layer/login/login_register_mail.csb"
-UILoginLayer.IMPLENT_BINDING = "UILoginLayerImplent"
-
 function UILoginLayer:ctor()
 	UILoginLayer.super.ctor(self)
 end
@@ -24,6 +21,10 @@ function UILoginLayer:initUI()
 	self.panel_password.button:addClickEventListener(function()
 		CommonHelper:addUI(UIDefine.UIRegister)
 	end)
+
+	local text = CommonHelper:newBMFontLabel("5")
+	:addTo(self)
+	:setPosition(500,300)
 end
 
 

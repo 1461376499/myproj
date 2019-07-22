@@ -7,14 +7,18 @@ local Png = ".png"
 local proloadingList = {
 	function()
 		--json.encode_sparse_array(true)		//这是cjson里的极度稀疏数组,cjson.encode({[11] = "data"})，将输出:{"1000":"data"},  json.encode({[11] = "data"})，将输出:[null,null,null,null,null,null,null,null,null,null,"data"]
-		ConfigHelper	= require("app.GameCoreLogic.GameConfigHelper")
-		GameEventDef	= require("app.GameCoreLogic.GameEventDef")
+		Macros	= require("app.GameCoreLogic.GameMacros")
+		EventDefine	= require("app.GameCoreLogic.GameEventDefine")
 	end,
 	function()
 		UIDefine		= require("app.GameCoreLogic.UIDefine")
 	end,
 	function()
+		DataConfig  = require("app.GameDataConfig.GameDataConfig")
 		CommonHelper	= require("app.CommonUtils.CommonHelper").new()				
+	end,
+	function()
+		GlobalHelper = require("app.GameCoreLogic.GameGlobalHelper")
 	end,
 	function()
 		BaseUI			= require("app.GameBaseLogic.BaseUI")
