@@ -8,11 +8,25 @@ end
 --添加一个弹窗类型的UI
 --@param1:UIDefine里定义的名字
 --@param2:要传入的数据
-function CommonHelper:addUI(uiDef, args)
+function CommonHelper:addUIModal(uiDef, args)
 	local ui = require(uiDef.script).new()
 	ui:init(uiDef, args)
 	ui:addToNode()
 	ui:show()
+	return ui
+end
+
+--添加一个普通UI
+--@param1:UIDefine里定义的名字
+function CommonHelper:addUI(uiDef, args, parent, zorder)
+	local ui = require(uiDef.script).new()
+	ui:init(uiDef, args)
+	if parent then
+		ui:addTo(parent)
+	end
+	if zorder then
+		ui:setLocalZOrder(zorder)
+	end
 	return ui
 end
 
@@ -59,7 +73,7 @@ end
 	弹出一个弹窗yes/no/ok样式
 ]]--
 function CommonHelper:showYesNoPopup(content, yesCallback, noCallback, tapBlankClose)
-	local pupop = CommonHelper:addUI(UIDefine.CommonUIPopup)
+	local pupop = CommonHelper:addUIModal(UIDefine.CommonUIPopup)
 	pupop:showYesNoPopup()
 	pupop:setContents(content)
 	pupop:setYesCallback(yesCallback)
@@ -69,7 +83,7 @@ function CommonHelper:showYesNoPopup(content, yesCallback, noCallback, tapBlankC
 end
 
 function CommonHelper:showOkPopup(title, content, okCallback, tapBlankClose, isShowCloseBtn)
-	local pupop = CommonHelper:addUI(UIDefine.CommonUIPopup)
+	local pupop = CommonHelper:addUIModal(UIDefine.CommonUIPopup)
 	pupop:showOkPopup()
 	pupop:setTitle(title)
 	pupop:setContents(content)

@@ -19,7 +19,7 @@ function UILoginLayer:initUI()
 	self.panel_password = self.widget:getChildByName("panel_password")
 	self.panel_password.button = self.panel_password:getChildByName("button")
 	self.panel_password.button:addClickEventListener(function()
-		CommonHelper:addUI(UIDefine.UIRegister)
+		CommonHelper:addUIModal(UIDefine.UIRegister)
 	end)
 
 	local text = CommonHelper:newBMFontLabel("5")
@@ -27,6 +27,8 @@ function UILoginLayer:initUI()
 	:setPosition(500,300)
 
 	CommonHelper:shader_Grey(self)
+
+	
 end
 
 
