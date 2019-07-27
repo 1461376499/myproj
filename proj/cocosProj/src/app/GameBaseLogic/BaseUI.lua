@@ -4,17 +4,30 @@ local CommonUIDialog = require("app.CommonUtils.CommonUIDialog")
 
 local BaseUI = class("BaseUI", cc.Layer)
 
+--全局事件标识
+BaseUI.EventTag = ""
+
 --不要在子类和基本的构造函数里执行太多的代码，否则会使init函数的UI初始化变得缓慢
 function BaseUI:ctor()
-	self.EventArray = {}
-	self:enableNodeEvents()
+	--自定义事件列表
+	self.customEventArray = {}
 
+	--节点事件
+	self:enableNodeEvents()
+	
+	--设置变色
 	self:setCascadeOpacityEnabled(true)
+
+	--当前场景变量
 	self.scene = SceneHelper:getRunningScene()
+
+	--注册全局监听
+	GlobalHelper:registerListener(self, self.EventTag)
 end
 
 function BaseUI:onEnterTransitionFinish()
-	if self.openCallback then	--UI打开后才调用openCb,不调用父节点弹窗的openCb
+	--UI打开后的调用
+	if self.openCallback then	
 		self.openCallback()
 	end
 end
@@ -53,6 +66,7 @@ end
 
 --即将退出
 function BaseUI:onExit()
+	
 	self:destory()
 end
 
@@ -64,6 +78,8 @@ end
 --清理界面
 function BaseUI:onCleanup()
 	self:_destory()
+	self:disableNodeEvents()
+	GlobalHelper:removeListener(self.EventTag)
 end
 
 --注册自定义事件
@@ -74,7 +90,7 @@ function BaseUI:addCustomEvent(sub, callFunc)
 		return;
 	end
 	local key = self.Implent.VIEW_EVENT_BINDING[sub]
-	self.EventArray[key] = callFunc
+	self.customEventArray[key] = callFunc
 end
 
 --关闭界面(如果是弹窗类型的界面,关闭对应的弹窗)
@@ -110,7 +126,7 @@ function BaseUI:setClosedCallback(cb)
 	return self
 end
 
---添加到节点
+--添加到节点 弹窗类型的layer
 function BaseUI:addToNode(toNode)
 	local dialog = CommonUIDialog.new(self)
 	dialog:addToNode(toNode)
@@ -128,10 +144,19 @@ function BaseUI:show(showType)
 	return self
 end
 
+
+
+
+
+
+
+
+
+
 -----------------------------------internal function ---------------------------------------------
 --加载实例
 function BaseUI:_bindImplent()
-	if self.IMPLENT_BINDING == nil then
+	if self.implentBinding == nil or self.implentBinding == "" then
 		return
 	end
 	self.Implent = require(self.implentBinding).new()
@@ -180,7 +205,7 @@ function BaseUI:_addEventDef()
 		local userData = eventData["_userData"]
 		local sub	   = userData["sub"]
 		local data	   = userData["data"]
-		local callFunc = self.EventArray[sub]
+		local callFunc = self.customEventArray[sub]
 		if callFunc then
 			callFunc(data)
 		end

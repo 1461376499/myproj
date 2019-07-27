@@ -6,7 +6,7 @@
 
 local GameEventDefine = GameEventDefine or {}
 
-function GameEventDefine.DispathEvent(events,  sub,  data)
+function GameEventDefine.dispathEvent(events,  sub,  data)
 	local customEvent = cc.EventCustom:new(events["KEY"])
 	customEvent["_userData"] = {
 		sub = events[sub],
@@ -26,6 +26,16 @@ GameEventDefine["HEROINFO"] = {
 	["EQUIP"]	= "kEventDef.HeroInfo.Equip",
 	["ACTIVE"]	= "kEventDef.HeroInfo.Active",
 	["AWAKE"]	= "kEventDef.HeroInfo.Awake",
+}
+
+--宠物信息
+GameEventDefine["PETINFO"] = {
+	["KEY"] 	= "kEventDef.PetInfo",
+	["LVUP"]	= "kEventDef.PetInfo.LvUp",
+	["TIERUP"]	= "kEventDef.PetInfo.TierUp",
+	["EQUIP"]	= "kEventDef.PetInfo.Equip",
+	["ACTIVE"]	= "kEventDef.PetInfo.Active",
+	["AWAKE"]	= "kEventDef.PetInfo.Awake",
 }
 
 

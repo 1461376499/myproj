@@ -9,7 +9,7 @@ function BaseImplent:ctor()
 end
 
 function BaseImplent:dispatchEvent(sub, data)
-	EventDefine.DispathEvent(self.VIEW_EVENT_BINDING, sub, data)
+	EventDefine.dispathEvent(self.VIEW_EVENT_BINDING, sub, data)
 end
 
 --销毁实例

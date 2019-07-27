@@ -52,9 +52,13 @@ function GamePopWindowHelper:cleanup(sn)
 				table.remove(self.popWindows, index)
 			end
 		end
+		--检测是否还有其他场景的弹窗
+		self:showTop()
 	else
 		self.popWindows = {}
 	end
+	
+
 end
 
 return GamePopWindowHelper

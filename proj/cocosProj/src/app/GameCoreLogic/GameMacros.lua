@@ -46,12 +46,20 @@ local GameMacros = {
 		
 	},
 
-	ShaderResources = {
+	ShaderResources = {					--"vert"字段不填,读取默认值
+		--默认
+		Default = {key = "Default",vert = "shader/ccShader_PositionTextureColor_noMVP.vert", frag = "shader/default.frag"},
 		--置灰
-		Grey = 	{key = "GREY",vert = "shader/ui_grey.vsh", frag = "shader/ui_grey.fsh"},
+		Grey = {key = "GREY",vert = "shader/ui_grey.vsh", frag = "shader/ui_grey.fsh"},
 
 		--流光
-		Flow_Light	= {key = "Flow_Light",vert = "", frag = ""},
+		Flow_Light = {key = "Flow_Light",vert = "", frag = ""},
+
+		--雪花
+		Ice = {key = "Flow_Light",vert = "shader/ccShader_PositionTextureColor_noMVP.vert", frag = "effect_ice.frag"},
+
+		--冰冻
+		Frozen = {key = "Frozen", vert = "", frag = "FrozenShader.fsh"}
 	}
 }
 

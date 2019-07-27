@@ -14,7 +14,11 @@ function GameShaderHelper:get(shaderConfig)
 	local _key = shaderConfig["key"]
 	local _glGLProgram = glProgramCache:getGLProgram(_key)
 	if _glGLProgram == nil then	
-		local vertSource = ccFileUtils:getStringFromFile(shaderConfig["vert"])
+		local vert = shaderConfig["vert"]
+		if vert == nil  or vert == "" then
+			vert = "shader/ccShader_PositionTextureColor_noMVP.vert"
+		end
+		local vertSource = ccFileUtils:getStringFromFile(vert)
 		local fragSource = ccFileUtils:getStringFromFile(shaderConfig["frag"])
 		_glGLProgram = cc.GLProgram:createWithByteArrays(vertSource, fragSource)
 		_glGLProgram:link()
@@ -44,15 +48,11 @@ end
 
 function GameShaderHelper:set(node, glstate)
 	local name = node:getName()
+
+	--[[if type of the node is UI and has virtualRender, means that classes extend UIWidget, you must consider the virtualRender node]]
 	if node.getVirtualRenderer then
-		if node.isScale9Enabled ~= nil and node:isScale9Enabled() then
-			local sp_render = node:getVirtualRenderer()
-			sp_render:setGLProgramState(glstate)	
-			local spChildren = sp_render:getChildren()
-			for k, child in pairs(spChildren) do
-				self:set(child, glstate)
-			end
-		end
+		local sp_render = node:getVirtualRenderer()
+		sp_render:setGLProgramState(glstate)	
 	else
 		node:setGLProgramState(glstate)	
 	end

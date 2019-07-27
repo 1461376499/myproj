@@ -24,6 +24,9 @@ release_print = release_print
 
 ccLuaCast = tolua.cast
 
+FALSE = false
+
+TRUE  = true
 
 
 local Node = cc.Node

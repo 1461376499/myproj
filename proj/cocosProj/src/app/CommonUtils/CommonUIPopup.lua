@@ -83,6 +83,8 @@ end
 function CommonUIPopup:showYesNoPopup()
 	self._style = self.ShowStyle.YesNo
 	self.btn_ok:setVisible(false)
+	self.btn_no:setVisible(true)
+	self.btn_yes:setVisible(true)
 	self.btn_close:setVisible(false)
 end
 
@@ -101,6 +103,7 @@ function CommonUIPopup:showOkPopup()
 	self._style = self.ShowStyle.Ok
 	self.btn_no:setVisible(false)
 	self.btn_yes:setVisible(false)
+	self.btn_ok:setVisible(true)
 end
 
 --注册ok按钮点击回调
@@ -115,7 +118,10 @@ end
 
 --设置是否点击空白区域关闭弹窗
 function CommonUIPopup:setTapBlankClose(boolean)
-	self._tapBlankClose = boolean or true
+	if boolean == nil then
+		boolean = true
+	end
+	self._tapBlankClose = boolean
 end
 
 return CommonUIPopup

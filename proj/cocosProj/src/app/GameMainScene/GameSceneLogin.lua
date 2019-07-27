@@ -6,21 +6,31 @@ function LuaClass:ctor()
 	LuaClass.super.ctor(self)
 	self:enableNodeEvents()
 	self:setName("GameSceneLogin")
-end
-
-function LuaClass:onEnter()
 	self:loadWidget()
 end
 
+
 function LuaClass:onEnterTransitionFinish()
-	--todo play music
+	--开始播放音乐
 	AudioEngine.playMusic("music/Music1.mp3", true)
-	--AudioEngine.setMusicVolume(0.01)
-	--tode start login
+
+	--开始第三方登录
+	LoginHelper:start3rdLogin(handler(self, self.login3rdResult))
 end
 
 function LuaClass:loadWidget()
+	cc.Label:createWithSystemFont("login", "Arial", 40)
+		:move(display.cx, display.cy + 200)
+		:addTo(self)
+
 	self.loginLayer = CommonHelper:addUIModal(UIDefine.UILoginLayer)
 		:setClosedCallback(function() print("关闭了界面")  end )
 end
+
+--第三方登录结果
+function LuaClass:login3rdResult(result)
+	
+end
+
+
 return LuaClass

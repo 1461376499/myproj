@@ -45,7 +45,7 @@ function MyApp:pushUIScene(sceneName,args,transitionType, time, more)
 	local abslutePath = self.sceneRoot..sceneName
 	local sceneClass = require(abslutePath)
     local scene = sceneClass.new(unpack(checktable(args)))
-	display.pushScene(scene, transitionType, time, more)
+	ccDirector:pushScene(scene)
 end
 
 function MyApp:popScene(sceneName, params)	

@@ -5,6 +5,7 @@ function CommonHelper:ctor()
 
 end
 
+
 --添加一个弹窗类型的UI
 --@param1:UIDefine里定义的名字
 --@param2:要传入的数据
@@ -595,6 +596,12 @@ function CommonHelper:newTTFFontLabel(str,_bmfontPath,fontsize,size,type1,type2)
     return _label
 end
 
+
+----------------------shader----------------------------
+--自定义
+function CommonHelper:shader_Custom(node, shaderKey, func)
+	ShaderHelper:render(node, shaderKey, func)
+end
 --流光
 function CommonHelper:shader_Flow_Light(node, func)
 	ShaderHelper:render(node, Macros.ShaderResources.Flow_Light, func)
@@ -604,6 +611,14 @@ end
 function CommonHelper:shader_Grey(node, func)
 	ShaderHelper:render(node, Macros.ShaderResources.Grey, func)
 end
+--默认
+function CommonHelper:shader_Default(node, func)
+	ShaderHelper:render(node, Macros.ShaderResources.Default, func)
+end
 
+-------------------------------------------------------------------
 
+function CommonHelper:spineBoneConvertToNodePos(spine, boneName,toNode)
+--	local 
+end
 return CommonHelper

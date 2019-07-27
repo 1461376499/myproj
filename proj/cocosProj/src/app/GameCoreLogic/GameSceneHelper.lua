@@ -6,14 +6,13 @@ function GameSceneHelper:ctor()
 end
 
 function GameSceneHelper:pushScene(sceneName, params)
-	
-
+	self.lastScene = self.runningScene
+	__App:pushScene(sceneName,params)
 end
 
 
-function GameSceneHelper:pushScene()
-
-
+function GameSceneHelper:popScene()
+	__App:popScene()
 end
 
 function GameSceneHelper:setRunningScene(scene)
