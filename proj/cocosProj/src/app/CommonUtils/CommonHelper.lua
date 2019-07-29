@@ -11,7 +11,7 @@ end
 --@param2:要传入的数据
 function CommonHelper:addUIModal(uiDef, args)
 	local ui = require(uiDef.script).new()
-	ui:init(uiDef, args)
+	ui:initialization(uiDef, args)
 	ui:addToNode()
 	ui:show()
 	return ui
@@ -21,7 +21,7 @@ end
 --@param1:UIDefine里定义的名字
 function CommonHelper:addUI(uiDef, args, parent, zorder)
 	local ui = require(uiDef.script).new()
-	ui:init(uiDef, args)
+	ui:initialization(uiDef, args)
 	if parent then
 		ui:addTo(parent)
 	end
@@ -195,7 +195,7 @@ function CommonHelper:formatNumberExtend(number, format)
 end
 
 --参数 总秒数，返回： --:--:-- 格式的时间
-function CommonHelper:timeConvertToHHMMSS(second)
+function CommonHelper:formatTimeHHMMSS(second)
 
     local hour = math.floor(second/3600)
     local minutes = math.floor((second - hour*3600)/60)
@@ -350,7 +350,7 @@ end
 --@param    sName:要转换的字符串  
 --@return   nMaxCount，字符串上限,中文字为2的倍数  
 --@note     每个nMaxCount个字符加入一个换行
-function CommonHelper:TransformStr(sName,nMaxCount)  
+function CommonHelper:transformStr(sName,nMaxCount)  
     if sName == nil then  
         return  
     end  
@@ -412,7 +412,7 @@ end
 --@return   nMaxCount，字符串上限,中文字为2的倍数  
 --@param    nShowCount：显示英文字个数，中文字为2的倍数,可为空  
 --@note     函数实现：截取字符串一部分，剩余用“...”替换
-function CommonHelper:GetShortStr(sName,nMaxCount,nShowCount)  
+function CommonHelper:getShortStr(sName,nMaxCount,nShowCount)  
     if sName == nil or nMaxCount == nil then  
         return  
     end  
@@ -469,7 +469,7 @@ function CommonHelper:GetShortStr(sName,nMaxCount,nShowCount)
 end
 
 --返回当前字符实际占用的字符数
-function CommonHelper:SubStringGetByteCount(str, index)
+function CommonHelper:subStringGetByteCount(str, index)
     local curByte = string.byte(str, index)
     local byteCount = 1;
     if curByte == nil then
@@ -486,7 +486,7 @@ function CommonHelper:SubStringGetByteCount(str, index)
     return byteCount;
 end
 
-function CommonHelper:SubStringGetTrueIndex(str, index)
+function CommonHelper:subStringGetTrueIndex(str, index)
     local curIndex = 0;
     local i = 1;
     local lastCount = 1;
@@ -499,7 +499,7 @@ function CommonHelper:SubStringGetTrueIndex(str, index)
 end
 
 --截取中英混合的UTF8字符串，endIndex可缺省
-function CommonHelper:SubStringUTF8(str, startIndex, endIndex)
+function CommonHelper:subStringUTF8(str, startIndex, endIndex)
     if startIndex < 0 then
         startIndex = SubStringGetTotalIndex(str) + startIndex + 1;
     end
@@ -574,7 +574,7 @@ function CommonHelper:getCurrentFontPath()
 end
 
 --创建fnt字体
-function CommonHelper:newBMFontLabel(_text, _hAlignment, _bmfontPath, _maxLineWidth, _imageOffset)
+function CommonHelper:createBMFontLabel(_text, _hAlignment, _bmfontPath, _maxLineWidth, _imageOffset)
     _bmfontPath = _bmfontPath or CommonHelper:getCurrentFontPath()
 
     _hAlignment = _hAlignment or cc.TEXT_ALIGNMENT_CENTER
@@ -589,7 +589,7 @@ function CommonHelper:newBMFontLabel(_text, _hAlignment, _bmfontPath, _maxLineWi
 end
 
 --创建ttf字体
-function CommonHelper:newTTFFontLabel(str,_bmfontPath,fontsize,size,type1,type2)
+function CommonHelper:createTTFFontLabel(str,_bmfontPath,fontsize,size,type1,type2)
     local _scale = DataConfig.LangSwitch.getItem(GlobalHelper.m_language,"Scale")
     local _label = cc.Label:createWithTTF(str,_bmfontPath,fontsize,size,type1,type2)
     _label:setScale(_scale)

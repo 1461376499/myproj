@@ -6,6 +6,9 @@ function GamePopWindowHelper:ctor()
 	self.popWindows = {}
 end
 
+function GamePopWindowHelper:getPopWindows()
+	return self.popWindows
+end
 
 --添加一个新的弹窗
 function GamePopWindowHelper:add(window)
@@ -44,21 +47,22 @@ function GamePopWindowHelper:remove()
 end
 
 --清理所有弹窗
-function GamePopWindowHelper:cleanup(sn)
-	if sn then
+function GamePopWindowHelper:cleanup(scene)
+	print("剩下弹窗数量0", #self.popWindows)
+	if scene then
 		for index = #self.popWindows, 1, -1 do
 			local window = self.popWindows[index]
-			if window.scene == SceneHelper:getRunningScene() then
+			if window.scene == scene then
 				table.remove(self.popWindows, index)
 			end
 		end
-		--检测是否还有其他场景的弹窗
+		--检测是否还有其他场景的弹窗/处理pushscene的情况
 		self:showTop()
 	else
 		self.popWindows = {}
 	end
 	
-
+	print("剩下弹窗数量1", #self.popWindows)
 end
 
 return GamePopWindowHelper

@@ -25,7 +25,7 @@ end
 
 --
 function BaseScene:onExit()
-	PopWindowHelper:cleanup(true)	
+	PopWindowHelper:cleanup(self)	
 	self:disableNodeEvents()
 end
 

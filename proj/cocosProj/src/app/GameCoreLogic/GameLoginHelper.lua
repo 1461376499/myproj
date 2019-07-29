@@ -11,6 +11,7 @@ local proloadingList = {
 		EventDefine	= require("app.GameCoreLogic.GameEventDefine")
 	end,
 	function()
+		EventHelper = require("app.GameCoreLogic.GameEventHelper")
 		UIDefine		= require("app.GameCoreLogic.UIDefine")
 	end,
 	function()

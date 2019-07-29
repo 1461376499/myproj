@@ -8,6 +8,7 @@ function GameSceneBattle:ctor()
 		:addTo(self)
 
 	CommonHelper:addUIModal(UIDefine.UIRegister)
+	print("popwindnum = ", #PopWindowHelper:getPopWindows())
 	--CommonHelper:shader_Default(self)
 end
 

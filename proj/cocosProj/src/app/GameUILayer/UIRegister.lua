@@ -1,11 +1,8 @@
 local UIRegister = class("UIRegister", BaseUI)
 
-UIRegister.EventTag = "UIRegisterTag"
-
-function UIRegister:ctor()
-	UIRegister.super.ctor(self)
-
+function UIRegister:init()
 	CommonHelper:addUIModal(UIDefine.UILoginLayer)
+	self:initUI()
 end
 
 
@@ -19,7 +16,7 @@ function UIRegister:initUI()
 				"congratulation you get a equipment",
 				function()
 --					SceneHelper:popScene()
-					GlobalHelper:notifyEvent(nil, "你好")
+					EventHelper:broadcastEvent("keykey", "你好")
 				end,
 				false, 
 				true)
@@ -28,7 +25,7 @@ function UIRegister:initUI()
 end
 
 function UIRegister:onEvent(key, data)
-	print("收到了事件UIRegister",data)
+	print("收到了事件UIRegister",key, data)
 	return true
 end
 

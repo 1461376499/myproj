@@ -6,15 +6,6 @@
 
 local GameEventDefine = GameEventDefine or {}
 
-function GameEventDefine.dispathEvent(events,  sub,  data)
-	local customEvent = cc.EventCustom:new(events["KEY"])
-	customEvent["_userData"] = {
-		sub = events[sub],
-		data = data
-	}
-	ccDirector:getEventDispatcher():dispatchEvent(customEvent)
-end
-
 --[[  
 	英雄信息
 	升级

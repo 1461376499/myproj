@@ -2,13 +2,12 @@
 
 local UILoginLayer = class("UILoginLayer", require('app.GameBaseLogic.BaseUI'))
 
-UILoginLayer.EventTag = "UILoginLayerTag"
-
-function UILoginLayer:ctor()
-	UILoginLayer.super.ctor(self)
+function UILoginLayer:init()
+	self:initUI()
+	self:addEvents()
 end
 
---¶àÌ¬º¯Êı
+--å¤šæ€å‡½æ•°
 function UILoginLayer:initUI()
 	self.closeBtn = ccUtils.findChild(self.widget, "closeBtn")
 	self.closeBtn:addClickEventListener(function()
@@ -23,27 +22,28 @@ function UILoginLayer:initUI()
 	self.panel_password.button:addClickEventListener(function()
 --		CommonHelper:addUIModal(UIDefine.UIRegister)
 --		CommonHelper:shader_Default(self)
-		SceneHelper:pushScene("GameSceneBattle")
+		SceneHelper:gotoScene("GameSceneBattle")
 	end)
 
-	local text = CommonHelper:newBMFontLabel("5")
+	local text = CommonHelper:createBMFontLabel("5")
 	:addTo(self)
 	:setPosition(500,300)
 
 	CommonHelper:shader_Custom(self, Macros.ShaderResources.Grey)
 
+
 end
 
 
---¶àÌ¬º¯Êı
+--å¤šæ€å‡½æ•°
 function UILoginLayer:addEvents()
 	self:addCustomEvent("LVUP", function(data)
-		print("ÄãºÃ",data)
+		print("ä½ å¥½",data)
 	end)
 end
 
 function UILoginLayer:onEvent(key, data)
-	print("ÊÕµ½ÁËÊÂ¼şUILoginLayer", data)
+	print("æ”¶åˆ°äº†äº‹ä»¶UILoginLayer",key, data)
 	return true
 end
 

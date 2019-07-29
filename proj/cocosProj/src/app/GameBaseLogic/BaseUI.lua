@@ -4,25 +4,13 @@ local CommonUIDialog = require("app.CommonUtils.CommonUIDialog")
 
 local BaseUI = class("BaseUI", cc.Layer)
 
---全局事件标识
-BaseUI.EventTag = ""
-
---不要在子类和基本的构造函数里执行太多的代码，否则会使init函数的UI初始化变得缓慢
 function BaseUI:ctor()
-	--自定义事件列表
-	self.customEventArray = {}
 
-	--节点事件
-	self:enableNodeEvents()
-	
-	--设置变色
-	self:setCascadeOpacityEnabled(true)
+end
 
-	--当前场景变量
-	self.scene = SceneHelper:getRunningScene()
-
-	--注册全局监听
-	GlobalHelper:registerListener(self, self.EventTag)
+--设置唯一Index
+function BaseUI:setReference(index)
+	self.referenceIndex = index
 end
 
 function BaseUI:onEnterTransitionFinish()
@@ -35,32 +23,34 @@ end
 --初始化
 --@prama1 uidef
 --@prama2 其他参数
-function BaseUI:init(uidef, args)
-	self.csbBinding = uidef.csb
-	self.implentBinding = uidef.implent
-	self.args = args
-
-	self:_bindImplent()
+function BaseUI:initialization(uidef, args)
+	self:_initBase(uidef)
+	self:_bindImplent(uidef.implent)
 	self:_addEventDef()
-	self:_loadCsb()
+	self:_loadCsb(uidef.csb)
 
-	self:initUI()
-	self:initData(args)
-	self:addEvents()
+	--调用派生类的init
+	self:init(args)
+	self:initFinish()
 end
 
---多态函数/初始化UI
+--请重写
+function BaseUI:init()
+
+end
+
+--请重写/初始化UI
 function BaseUI:initUI()
 
 end
 
-----多态函数/初始化数据
-function BaseUI:initData()
-
+--请重写/初始化事件
+function BaseUI:addEvents()
+	
 end
 
---多态函数/初始化事件
-function BaseUI:addEvents()
+--多态函数/初始化数据完成
+function BaseUI:initFinish()
 	
 end
 
@@ -70,7 +60,7 @@ function BaseUI:onExit()
 	self:destory()
 end
 
-----多态函数/销毁UI
+--多态函数/销毁UI
 function BaseUI:destory()
 	
 end
@@ -79,7 +69,7 @@ end
 function BaseUI:onCleanup()
 	self:_destory()
 	self:disableNodeEvents()
-	GlobalHelper:removeListener(self.EventTag)
+	EventHelper:removeListener(self.referenceIndex)
 end
 
 --注册自定义事件
@@ -154,21 +144,45 @@ end
 
 
 -----------------------------------internal function ---------------------------------------------
+--初始化通用属性
+function BaseUI:_initBase(uidef)
+	--UI的引用计数索引
+	self.referenceIndex = -1
+	
+	--自定义事件列表
+	self.customEventArray = {}
+
+	--节点事件
+	self:enableNodeEvents()
+	
+	--设置变色
+	self:setCascadeOpacityEnabled(true)
+
+	--当前场景变量
+	self.scene = SceneHelper:getRunningScene()
+
+	--注册全局监听
+	EventHelper:registerListener(self)
+
+	--设置名字
+	self:setName(uidef.name)
+end
+
 --加载实例
-function BaseUI:_bindImplent()
-	if self.implentBinding == nil or self.implentBinding == "" then
+function BaseUI:_bindImplent(imp)
+	if imp == nil or imp == "" then
 		return
 	end
-	self.Implent = require(self.implentBinding).new()
+	self.Implent = require(imp).new()
 end
 
 
 --加载csb文件
-function BaseUI:_loadCsb()
-	if self.csbFile == "" then
+function BaseUI:_loadCsb(csb)
+	if csb == "" then
 		return;
 	end
-	local widget = CommonHelper:loadWidget(self.csbBinding)
+	local widget = CommonHelper:loadWidget(csb)
 		:addTo(self)
 		:setAnchorPoint(ccAchorPointCenter)
 		:setPosition(self:getCenter())

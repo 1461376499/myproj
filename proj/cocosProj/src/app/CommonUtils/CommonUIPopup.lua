@@ -5,19 +5,30 @@
 
 local CommonUIPopup = class("CommonUIPopup", BaseUI)
 
-CommonUIPopup.ShowStyle = {YesNo = 1,Ok = 2}--显示样式
+--显示样式
+CommonUIPopup.ShowStyle = {
+	YesNo = 1,
+	Ok    = 2}
 
-function CommonUIPopup:ctor(title, content, style, tapBlankClose)
-	CommonUIPopup.super.ctor(self)
-	
-	self._tapBlankClose = tapBlankClose or true
+--初始化
+function CommonUIPopup:init()
+	--点击空白区就关闭
+	self._tapBlankClose = true	
 
-	self._style = style or self.ShowStyle.YesNo
-	self._title = title or ""
-	self._content = content or ""
+	--样式	
+	self._style = self.ShowStyle.YesNo
+
+	--标题
+	self._title = ""
+
+	--内容
+	self._content = ""
+
+	self:initUI()
+	self:initData()
 end
 
---多态函数/初始化UI
+--初始化UI及点击事件
 function CommonUIPopup:initUI()
 	local widget = self.widget:getChildByName("widget")
 	widget:setTouchEnabled(true)
@@ -57,7 +68,7 @@ function CommonUIPopup:initUI()
 	self.btn_close:addClickEventListener(handler(self, self.close))
 end
 
---多态函数/初始化数据
+--初始化数据
 function CommonUIPopup:initData()
 	self.text_msg:setString(self._content)
 	if self._style == self.ShowStyle.YesNo then
@@ -65,6 +76,23 @@ function CommonUIPopup:initData()
 	elseif self._style == self.ShowStyle.Ok then
 		self:showOkPopup()
 	end
+end
+
+--显示yes/no弹窗样式
+function CommonUIPopup:showYesNoPopup()
+	self._style = self.ShowStyle.YesNo
+	self.btn_ok:setVisible(false)
+	self.btn_no:setVisible(true)
+	self.btn_yes:setVisible(true)
+	self.btn_close:setVisible(false)
+end
+
+--显示ok弹窗样式
+function CommonUIPopup:showOkPopup()
+	self._style = self.ShowStyle.Ok
+	self.btn_no:setVisible(false)
+	self.btn_yes:setVisible(false)
+	self.btn_ok:setVisible(true)
 end
 
 --设置标题
@@ -79,15 +107,6 @@ function CommonUIPopup:setContents(content)
 	self.text_msg:setString(content)
 end
 
---显示yes/no弹窗样式
-function CommonUIPopup:showYesNoPopup()
-	self._style = self.ShowStyle.YesNo
-	self.btn_ok:setVisible(false)
-	self.btn_no:setVisible(true)
-	self.btn_yes:setVisible(true)
-	self.btn_close:setVisible(false)
-end
-
 --注册yes按钮点击回调
 function CommonUIPopup:setYesCallback(callback)
 	self.yesCallback = callback
@@ -96,14 +115,6 @@ end
 --注册no按钮点击回调
 function CommonUIPopup:setNoCallback(callback)
 	self.noCallback = callback
-end
-
---显示ok弹窗样式
-function CommonUIPopup:showOkPopup()
-	self._style = self.ShowStyle.Ok
-	self.btn_no:setVisible(false)
-	self.btn_yes:setVisible(false)
-	self.btn_ok:setVisible(true)
 end
 
 --注册ok按钮点击回调
