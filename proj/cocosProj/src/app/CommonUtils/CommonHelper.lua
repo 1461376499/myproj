@@ -94,6 +94,12 @@ function CommonHelper:showOkPopup(title, content, okCallback, tapBlankClose, isS
 	return pupop;
 end
 
+--转换到节点空间坐标
+function CommonHelper:convertToNodePosition(this, p, that)
+	local p_world = this:convertToWorldSpace(p)
+	return that:convertToNodeSpace(p_world)
+end
+
 --[[
 	通用数字显示格式
 	@param1 : number, 要转换的数字(如果数字为百分比，传入的数字为转换为小数的真实数字。例：0.03 ---> 3%)
@@ -255,7 +261,7 @@ function CommonHelper:table_deepcopy(object)
     return _copy(object)
 end
 
---@note     是否全是数字
+--@note  是否全是数字
 function CommonHelper:isAllNum(sName)  
 	local ret = true
     local sStr = sName  

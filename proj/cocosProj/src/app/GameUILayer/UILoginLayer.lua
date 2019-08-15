@@ -3,6 +3,8 @@
 local UILoginLayer = class("UILoginLayer", require('app.GameBaseLogic.BaseUI'))
 
 function UILoginLayer:init()
+	self.aniamtionIdx = 1
+	self.aniamtions = {"shengli_in","shengli_in2", "shengli_out", "shibai_in", "shibai_out"  }
 	self:initUI()
 	self:addEvents()
 end
@@ -22,16 +24,23 @@ function UILoginLayer:initUI()
 	self.panel_password.button:addClickEventListener(function()
 --		CommonHelper:addUIModal(UIDefine.UIRegister)
 --		CommonHelper:shader_Default(self)
-		SceneHelper:gotoScene("GameSceneBattle")
+--		SceneHelper:gotoScene("GameSceneBattle")
+		self.pvpSpine:setAnimation(0, self.aniamtions[self.aniamtionIdx], false)
+		self.aniamtionIdx = self.aniamtionIdx + 1
+		if self.aniamtionIdx > #self.aniamtions then
+			self.aniamtionIdx = 1
+		end
 	end)
 
 	local text = CommonHelper:createBMFontLabel("5")
 	:addTo(self)
-	:setPosition(500,300)
+	:setPosition(400,300)
 
 	CommonHelper:shader_Custom(self, Macros.ShaderResources.Grey)
 
-
+	self.pvpSpine = SpineHelper:createSpine("spine/test/pvp_jiesuan", 0.6)
+	self.pvpSpine:addTo(self)
+	:setPosition(500,300)
 end
 
 

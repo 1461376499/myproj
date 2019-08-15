@@ -1,9 +1,18 @@
 local GameSpineHelper = class("GameSpineHelper")
 
-function GameSpineHelper:createSpine(path,scale)
+function GameSpineHelper:createSpine(path, callfunc, scale)
 	local skel  = path .. ".skel"
 	local atlas = path .. ".atlas"
-	return sp.SkeletonAnimation:createWithBinaryFile(skel, atlas, scale)
+	local spine = sp.SkeletonAnimation:createWithBinaryFile(skel, atlas, scale)
+	local function func(...)
+		callfunc(spine, ...)
+	end
+	spine:registerSpineEventHandler(func, sp.EventType.ANIMATION_START) 
+	spine:registerSpineEventHandler(func, sp.EventType.ANIMATION_END) 
+	spine:registerSpineEventHandler(func, sp.EventType.ANIMATION_COMPLETE)
+	spine:registerSpineEventHandler(func, sp.EventType.ANIMATION_EVENT)
+	
+	return spine
 end
 
 --todo

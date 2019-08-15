@@ -25,9 +25,10 @@ local proloadingList = {
 	function()
 		BaseUI			= require("app.GameBaseLogic.BaseUI")
 		BaseScene		= require("app.GameBaseLogic.BaseScene")
-	end,
-	function()
 		BaseImplent		= require("app.GameBaseLogic.BaseImplent").new()
+	end,
+	function()	
+		SpineHelper = require("app.GameCoreLogic.GameSpineHelper").new()
 	end,
 	function()
 		PopWindowHelper = require("app.GameCoreLogic.GamePopWindowHelper").new()
