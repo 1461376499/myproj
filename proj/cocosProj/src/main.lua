@@ -51,8 +51,7 @@ end
 
 
 local function main()
---    require("app.MyApp"):create():run()
-	require("app.GameMainScene.GameSceneStart"):new()
+	require("app.views.scene.GameSceneStart"):new()
 end
 
 local status, msg = xpcall(main, __G__TRACKBACK__)

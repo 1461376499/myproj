@@ -9,7 +9,7 @@ function MyApp:onCreate()
 
 
 	self.defaultSceneRoot = "GameSceneStart"
-	self.sceneRoot = "app.GameMainScene."
+	self.sceneRoot = "app.views.scene."
 
 	local eventDispatcher = cc.Director:getInstance():getEventDispatcher()
     local customListenerBg = cc.EventListenerCustom:create(MyApp.APP_ENTER_BACKGROUND_EVENT,
