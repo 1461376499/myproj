@@ -103,7 +103,7 @@ end
 --[[
 	通用数字显示格式
 	@param1 : number, 要转换的数字(如果数字为百分比，传入的数字为转换为小数的真实数字。例：0.03 ---> 3%)
-	@param2 : 转换格式类型，常量定义在 GameMacros 中
+	@param2 : 转换格式类型，常量定义在 GameGlobalConfig 中
 ]]
 function CommonHelper:formatNumberExtend(number, format)
     
@@ -116,7 +116,7 @@ function CommonHelper:formatNumberExtend(number, format)
     local r2     = number
     local symbol = ""
 
-	if Macros.NumberFormat.FORMAT_PERCENTAGE == format then
+	if GlobalConfig.NumberFormat.FORMAT_PERCENTAGE == format then
 
         local tmp = math.floor(number * 1000) % 10
 
@@ -125,7 +125,7 @@ function CommonHelper:formatNumberExtend(number, format)
         else
             result = string.format("%.1f", number * 100) .. "%"
         end
-    elseif Macros.NumberFormat.FORMAT_NUMBER_FLOAT == format then
+    elseif GlobalConfig.NumberFormat.FORMAT_NUMBER_FLOAT == format then
         local surplus = math.floor(number * 100)
         local symbol  = "%.2f"
         if surplus % 10 == 0 then
@@ -141,10 +141,10 @@ function CommonHelper:formatNumberExtend(number, format)
 		local FormatByte = {}
 		FormatByte.data = 
 		{
-			{ id = Macros.NumberFormat.FORMAT_NORMAL, 	   value = 0, maxLimit = 1000000000000 },
-			{ id = Macros.NumberFormat.FORMAT_NUMBER_FOUR, value = 4, maxLimit = 1000000000000 },
-			{ id = Macros.NumberFormat.FORMAT_NUMBER_FIVE, value = 5, maxLimit = 10000000000000 },
-			{ id = Macros.NumberFormat.FORMAT_NUMBER_SIX,  value = 6, maxLimit = 100000000000000 }
+			{ id = GlobalConfig.NumberFormat.FORMAT_NORMAL, 	   value = 0, maxLimit = 1000000000000 },
+			{ id = GlobalConfig.NumberFormat.FORMAT_NUMBER_FOUR, value = 4, maxLimit = 1000000000000 },
+			{ id = GlobalConfig.NumberFormat.FORMAT_NUMBER_FIVE, value = 5, maxLimit = 10000000000000 },
+			{ id = GlobalConfig.NumberFormat.FORMAT_NUMBER_SIX,  value = 6, maxLimit = 100000000000000 }
 		}
 		FormatByte.getByte = function(id)
 
@@ -575,7 +575,7 @@ end
 
 
 function CommonHelper:getCurrentFontPath()
-    local fontName = DataConfig.LangSwitch.getItem(GlobalHelper.m_language,"FontName")
+    local fontName = DataConfig.LangSwitch.getItem(BasicManager.m_language,"FontName")
     return string.format( "font/fnt_%s.fnt", fontName)
 end
 
@@ -587,7 +587,7 @@ function CommonHelper:createBMFontLabel(_text, _hAlignment, _bmfontPath, _maxLin
     _maxLineWidth = _maxLineWidth or 0
     _imageOffset = _imageOffset or cc.p(0, 0)
 
-    local _scale = DataConfig.LangSwitch.getItem(GlobalHelper.m_language,"Scale")
+    local _scale = DataConfig.LangSwitch.getItem(BasicManager.m_language,"Scale")
     local _label = cc.Label:createWithBMFont(_bmfontPath, _text, _hAlignment, _maxLineWidth, _imageOffset)
     _label:setScale(_scale)
 
@@ -596,7 +596,7 @@ end
 
 --创建ttf字体
 function CommonHelper:createTTFFontLabel(str,_bmfontPath,fontsize,size,type1,type2)
-    local _scale = DataConfig.LangSwitch.getItem(GlobalHelper.m_language,"Scale")
+    local _scale = DataConfig.LangSwitch.getItem(BasicManager.m_language,"Scale")
     local _label = cc.Label:createWithTTF(str,_bmfontPath,fontsize,size,type1,type2)
     _label:setScale(_scale)
     return _label
@@ -606,20 +606,20 @@ end
 ----------------------shader----------------------------
 --自定义
 function CommonHelper:shader_Custom(node, shaderKey, func)
-	ShaderHelper:render(node, shaderKey, func)
+	ShaderManager:render(node, shaderKey, func)
 end
 --流光
 function CommonHelper:shader_Flow_Light(node, func)
-	ShaderHelper:render(node, Macros.ShaderResources.Flow_Light, func)
+	ShaderManager:render(node, GlobalConfig.ShaderResources.Flow_Light, func)
 end
 
 --置灰
 function CommonHelper:shader_Grey(node, func)
-	ShaderHelper:render(node, Macros.ShaderResources.Grey, func)
+	ShaderManager:render(node, GlobalConfig.ShaderResources.Grey, func)
 end
 --默认
 function CommonHelper:shader_Default(node, func)
-	ShaderHelper:render(node, Macros.ShaderResources.Default, func)
+	ShaderManager:render(node, GlobalConfig.ShaderResources.Default, func)
 end
 
 -------------------------------------------------------------------

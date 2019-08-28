@@ -5,7 +5,7 @@ local CommonUIDialog = class("CommonUIDialog", cc.Layer)
 --@prama1:要添加的UI
 --@prama2:是否点击空白区关闭当前UI
 function CommonUIDialog:ctor(ui, blankClose)
-	self.scene = SceneHelper:getRunningScene()  --每一个弹窗绑定场景，以便场景退出清理弹窗	
+	self.scene = SceneManager:getRunningScene()  --每一个弹窗绑定场景，以便场景退出清理弹窗	
 	self.blankClose = blankClose or true
 	self.uiNode = ui
 
@@ -32,7 +32,7 @@ function CommonUIDialog:initUI()
 	self.uiNode:addTo(self, 20)
 		:setIgnoreAnchorPointForPosition(false)
 		:setAnchorPoint(ccAchorPointCenter)
-		:setTag(Macros.Layer_Tag.DialogContent)
+		:setTag(GlobalConfig.Layer_Tag.DialogContent)
 		:setCascadeOpacityEnabled(true)
 		:setPosition(ccp(winSize.width * 0.5, winSize.height * 0.5))
 
@@ -51,12 +51,12 @@ end
 
 --显示当前UI
 function CommonUIDialog:show(showType)
-	self.showType = showType or Macros.DialogOpenType.ScaleTo
+	self.showType = showType or GlobalConfig.DialogOpenType.ScaleTo
 
 	self.uiNode:setVisible(false)
 	self:setVisible(true)
 
-	PopWindowHelper:add(self)
+	PopWindowManager:add(self)
 	
 	self:doShowAnimation(showType)
 end
@@ -95,7 +95,7 @@ function CommonUIDialog:doCloseAnimation(showType)
 			self.closedCallback()
 			self.closedCallback = nil
 		end
-		PopWindowHelper:remove()
+		PopWindowManager:remove()
 		self:runAction(cc.RemoveSelf:create())
 	end
 
@@ -131,11 +131,11 @@ end
 
 --添加到节点
 function CommonUIDialog:addToNode(toNode)
-	toNode = toNode or SceneHelper:getRunningScene()
+	toNode = toNode or SceneManager:getRunningScene()
 	local winSize = ccDirector:getWinSize()
 	self:setIgnoreAnchorPointForPosition(false)
 	self:setAnchorPoint(ccAchorPointCenter)
-	self:addTo(toNode, Macros.ZOrderControl.Dialog)
+	self:addTo(toNode, GlobalConfig.ZOrderControl.Dialog)
 	self:setPosition(ccp(winSize.width * 0.5, winSize.height * 0.5))
 end
 
