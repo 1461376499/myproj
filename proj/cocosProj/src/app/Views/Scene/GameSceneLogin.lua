@@ -1,36 +1,37 @@
 --code by zpc
-local LuaClass = class("LuaClass", BaseScene)
+local GameSceneLogin = class("GameSceneLogin", BaseScene)
 
 
-function LuaClass:ctor()
-	LuaClass.super.ctor(self)
+function GameSceneLogin:ctor()
+	print("GameSceneLogin:ctor")
+	GameSceneLogin.super.ctor(self)
 	self:enableNodeEvents()
 	self:setName("GameSceneLogin")
 	self:loadWidget()
 end
 
 
-function LuaClass:onEnterTransitionFinish()
+function GameSceneLogin:onEnterTransitionFinish()
 	--开始播放音乐
 	AudioEngine.playMusic("music/Music1.mp3", true)
 
 	--开始第三方登录
-	LoginHelper:start3rdLogin(handler(self, self.login3rdResult))
+	LoginManager:start3rdLogin(handler(self, self.login3rdResult))
 end
 
-function LuaClass:loadWidget()
+function GameSceneLogin:loadWidget()
 	cc.Label:createWithSystemFont("login", "Arial", 40)
 		:move(display.cx, display.cy + 200)
 		:addTo(self)
 
-	self.loginLayer = CommonHelper:addUIModal(UIDefine.UILoginLayer)
+	self.loginLayer = CommonHelper:addUIModal(UIDefine.LoginLayer)
 		:setClosedCallback(function() print("关闭了界面")  end )
 end
 
 --第三方登录结果
-function LuaClass:login3rdResult(result)
+function GameSceneLogin:login3rdResult(result)
 	
 end
 
 
-return LuaClass
+return GameSceneLogin

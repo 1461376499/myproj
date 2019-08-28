@@ -1,6 +1,6 @@
 --code by zpc
-SceneHelper		= require("app.GameCoreLogic.GameSceneHelper").new()
-LoginHelper = require("app.GameCoreLogic.GameLoginHelper").new()
+SceneManager		= require("app.CoreLogic.SceneManager").new()
+LoginManager = require("app.CoreLogic.LoginManager").new()
 
 local LuaClass = class("LuaClass", cc.Scene)
 
@@ -9,7 +9,7 @@ function LuaClass:ctor()
 	self:setName("GameSceneStart")
 	cc.Director:getInstance():replaceScene(self)
 
-	SceneHelper:setRunningScene(self)
+	SceneManager:setRunningScene(self)
 
     local is_hot_finish = cc.UserDefault:getInstance():getIntegerForKey("is_last_update_finish", 0)
     if is_hot_finish == 1 then
@@ -26,7 +26,7 @@ function LuaClass:onEnterTransitionFinish()
 
     __App = require("app.MyApp").new()
 
-	LoginHelper:preLoading(function()
+	LoginManager:preLoading(function()
 		__App:run()
 	end)
    	

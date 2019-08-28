@@ -6,15 +6,14 @@ function BaseScene:ctor()
 	self:enableNodeEvents()	
 
 	--更新runningScene，director:runningScene在切换的时候不及时
-	SceneHelper:setRunningScene(self)
-	
+	SceneManager:setRunningScene(self)	
 end
 
 --
 function BaseScene:onEnter()
 	--场景push/pop的时候会重复调用onEnter,随时更新runningScene
 	self:enableNodeEvents()	
-	SceneHelper:setRunningScene(self)
+	SceneManager:setRunningScene(self)
 end
 
 
@@ -25,7 +24,7 @@ end
 
 --
 function BaseScene:onExit()
-	PopWindowHelper:cleanup(self)	
+	PopWindowManager:cleanup(self)	
 	self:disableNodeEvents()
 end
 
