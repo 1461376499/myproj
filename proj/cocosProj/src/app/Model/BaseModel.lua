@@ -11,8 +11,9 @@ function BaseImplent:init(params)
 	
 end
 
+--定向发送消息到绑定的view去
 function BaseImplent:dispatchEvent(sub, data)
-	EventHelper:dispathEvent(self.VIEW_EVENT_BINDING, sub, data)
+	EventDispatcher:dispatchEvent(self.VIEW_EVENT_BINDING, sub, data)
 end
 
 --销毁实例
