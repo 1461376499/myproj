@@ -1,6 +1,6 @@
-local GameEventHelper = GameEventHelper or {}
+local EventDispatcher = EventDispatcher or {}
 
-function GameEventHelper:init()
+function EventDispatcher:init()
 	--观察者容器--所有baseUI容器
 	self.m_UIContainer = {}
 
@@ -9,7 +9,7 @@ function GameEventHelper:init()
 end
 
 --发送订阅的自定义事件/接收者只有一个
-function GameEventHelper:dispathEvent(events,  sub,  data)
+function EventDispatcher:dispatchEvent(events,  sub,  data)
 	local customEvent = cc.EventCustom:new(events["KEY"])
 	customEvent["_userData"] = {
 		sub = events[sub],
@@ -20,14 +20,14 @@ end
 
 --注册广播监听观察者
 --参数:baseUI组件
-function GameEventHelper:registerListener(target)
+function EventDispatcher:registerListener(target)
 	self.uiRefernceIndex = self.uiRefernceIndex + 1
 
 	table.insert(self.m_UIContainer, {ui = target, referenceIndex = self.uiRefernceIndex})
 end
 
 --移除广播监听观察者
-function GameEventHelper:removeListener(index)
+function EventDispatcher:removeListener(index)
 	for j = #self.m_UIContainer, 1, -1 do
 		local layer = self.m_UIContainer[j]
 		if layer.referenceIndex == index then
@@ -38,12 +38,12 @@ function GameEventHelper:removeListener(index)
 end
 
 --广播一条消息/接收者是所有BaseUI组件
-function GameEventHelper:broadcastEvent(key, data)
+function EventDispatcher:broadcastEvent(key, data)
 	self:_broadcastEvent(key, data)
 end
 
 --广播一条消息(内部函数)
-function GameEventHelper:_broadcastEvent(key, data)
+function EventDispatcher:_broadcastEvent(key, data)
 	--让后添加的监听器先接收事件
 	print("#self.m_UIContainer == ",#self.m_UIContainer)
 	for j = #self.m_UIContainer, 1, -1 do
@@ -55,5 +55,5 @@ function GameEventHelper:_broadcastEvent(key, data)
 		end
 	end
 end
-GameEventHelper:init()
-return GameEventHelper
+EventDispatcher:init()
+return EventDispatcher

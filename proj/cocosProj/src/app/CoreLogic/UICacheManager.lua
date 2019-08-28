@@ -1,16 +1,16 @@
 --[[
 	UI对象缓存
   ]]--
-local GameUICacheHelper = class("GameUICacheHelper")
+local UICacheManager = class("UICacheManager")
 
 --对象池
-GameUICacheHelper.M = {}
+UICacheManager.M = {}
 
-function GameUICacheHelper:ctor()
+function UICacheManager:ctor()
 	self.cacheIdx = 0
 end
 
-function GameUICacheHelper:put(key, count)
+function UICacheManager:put(key, count)
 	count = count or 1
 	for i = 1, count do
 		local obj = self:_create(key)
@@ -18,7 +18,7 @@ function GameUICacheHelper:put(key, count)
 	end
 end
 
-function GameUICacheHelper:get(key, parent)
+function UICacheManager:get(key, parent)
 	local retWidget = self:_get()
 	if retWidget then
 		retWidget:addTo(parent)
@@ -29,12 +29,12 @@ function GameUICacheHelper:get(key, parent)
 	return retWidget;
 end
 
-function GameUICacheHelper:collect()
+function UICacheManager:collect()
 
 
 end
 
-function GameUICacheHelper:clear()
+function UICacheManager:clear()
 	for i,obj in ipairs(self.M) do
 		obj:release()
 	end
@@ -49,7 +49,7 @@ end
 	创建一个对象
 	@prama1: ui路径
 ]]--
-function GameUICacheHelper:_create(_key)
+function UICacheManager:_create(_key)
 	self.cacheIdx = self.cacheIdx + 1
 	
 	local obj = CommonHelper:loadWidget(key)
@@ -64,7 +64,7 @@ end
 	添加一个UI到对象池
 	@prama1: 添加的对象
 ]]--
-function GameUICacheHelper:_put(obj)
+function UICacheManager:_put(obj)
 	if obj and obj.inPool == false then
 		obj:retain()
 		obj.inPool = true
@@ -78,7 +78,7 @@ end
 	@prama1: ui路径，也是缓存的Key值
 	return  获取到的对象
 ]]--
-function GameUICacheHelper:_get(key)
+function UICacheManager:_get(key)
 	local retObj, index;
 
 	for i, obj in ipairs(self.M) do
@@ -99,4 +99,4 @@ end
 
 
 
-return GameUICacheHelper
+return UICacheManager

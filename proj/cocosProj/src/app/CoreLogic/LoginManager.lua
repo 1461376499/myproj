@@ -1,5 +1,5 @@
 
-local GameLoginHelper = class("GameLoginHelper")
+local LoginManager = class("LoginManager")
 
 local Plist = ".plist"
 local Png = ".png"
@@ -7,20 +7,20 @@ local Png = ".png"
 local proloadingList = {
 	function()
 		--json.encode_sparse_array(true)		//这是cjson里的极度稀疏数组,cjson.encode({[11] = "data"})，将输出:{"1000":"data"},  json.encode({[11] = "data"})，将输出:[null,null,null,null,null,null,null,null,null,null,"data"]
-		Macros	= require("app.GameCoreLogic.GameMacros")
-		EventDefine	= require("app.GameCoreLogic.GameEventDefine")
+		GlobalConfig	= require("app.CoreLogic.GlobalConfig")
+		EventConfig	= require("app.CoreLogic.EventConfig")
 	end,
 	function()
-		EventHelper = require("app.GameCoreLogic.GameEventHelper")
-		UIDefine		= require("app.GameCoreLogic.UIDefine")
+		EventDispatcher = require("app.CoreLogic.EventDispatcher")
+		UIDefine		= require("app.CoreLogic.UIDefine")
 	end,
 	function()
 		DataConfig  = require("app.DataConfig.GameDataConfig")
 		CommonHelper	= require("app.utils.CommonHelper").new()				
 	end,
 	function()
-		GlobalHelper = require("app.GameCoreLogic.GameGlobalHelper")
-		ShaderHelper = require("app.GameCoreLogic.GameShaderHelper")
+		BasicManager = require("app.CoreLogic.BasicManager")
+		ShaderManager = require("app.CoreLogic.ShaderManager")
 	end,
 	function()
 		BaseUI			= require("app.views.ui.BaseUI")
@@ -28,14 +28,14 @@ local proloadingList = {
 		BaseImplent		= require("app.model.BaseModel").new()
 	end,
 	function()	
-		SpineHelper = require("app.GameCoreLogic.GameSpineHelper").new()
+		SpineManager = require("app.CoreLogic.SpineManager").new()
 	end,
 	function()
-		PopWindowHelper = require("app.GameCoreLogic.GamePopWindowHelper").new()
-		MusicHelper		= require("app.GameCoreLogic.GameMusicHelper").new()
+		PopWindowManager = require("app.CoreLogic.PopWindowManager").new()
+		MusicManager		= require("app.CoreLogic.MusicManager").new()
 	end,
 	function()
-		UICacheHelper	= require("app.GameCoreLogic.GameUICacheHelper").new()
+		UICacheManager	= require("app.CoreLogic.UICacheManager").new()
 	end,
 }
 
@@ -54,22 +54,22 @@ local updateFrames = {
     
 }
 
-function GameLoginHelper:ctor()
+function LoginManager:ctor()
 	self._hotUpdated = false
 end
 
 
 --第三方登录
-function GameLoginHelper:start3rdLogin()
+function LoginManager:start3rdLogin()
 	
 end
 --检查热更新
-function GameLoginHelper:chechUpdate()
+function LoginManager:chechUpdate()
 
 
 end
 
-function GameLoginHelper:preLoading(cb)
+function LoginManager:preLoading(cb)
 	self.loadFinishCallBack = cb
 	--卸载通用
 	self:unloadCommon()
@@ -79,7 +79,7 @@ function GameLoginHelper:preLoading(cb)
 	release_print("异步加载通用")
 end
 
-function GameLoginHelper:unloadCommon()	
+function LoginManager:unloadCommon()	
 	for k,v in pairs( package.loaded) do
 		local match1 = string.find(k,"app.")
 		local match2 = string.find(k,"framework.")
@@ -92,7 +92,7 @@ function GameLoginHelper:unloadCommon()
 end
 
 
-function GameLoginHelper:loadAsynCommon()
+function LoginManager:loadAsynCommon()
 	local index = 1
 	local function load_schedule_func()
 		local listFunc = proloadingList[index]
@@ -109,12 +109,12 @@ function GameLoginHelper:loadAsynCommon()
 		end
 		index = index + 1
 	end
-	self.loadScheduler = ccDirector:getScheduler():scheduleScriptFunc(load_schedule_func, 2/60, false)
+	self.loadScheduler = ccDirector:getScheduler():scheduleScriptFunc(load_schedule_func, 4/60, false)
 end
 
 
 --加载资源文件
-function GameLoginHelper:loadRes()
+function LoginManager:loadRes()
 	self:unloadResOld()
 
 	self:loadResNew()
@@ -122,7 +122,7 @@ end
 
 
 --卸载旧资源
-function GameLoginHelper:unloadResOld()
+function LoginManager:unloadResOld()
 	if self._hotUpdated then
 		--删除缓存路径
 		ccFileUtils:purgeCacheEntries()	
@@ -134,7 +134,7 @@ function GameLoginHelper:unloadResOld()
 		PopWindHelper:clear()
 
 		--移除缓存ui
-		UICacheHelper:clear()	
+		UICacheManager:clear()	
 
 		--todo清理战斗对象池
 
@@ -152,7 +152,7 @@ function GameLoginHelper:unloadResOld()
 end
 
 --移除其他已经加载过的非plist图片
-function GameLoginHelper:removeOtherFrames()
+function LoginManager:removeOtherFrames()
 	for k, frame in pairs(otherFrames) do
 		display.removeSpriteFrame(frame..Png)
 	end
@@ -160,14 +160,14 @@ end
 
 
 --移除热更新图片
-function GameLoginHelper:removeUpdateFrames()
+function LoginManager:removeUpdateFrames()
 	for k, frame in pairs(updateFrames) do
 		display.removeSpriteFrame(frame..Png)
 	end
 end
 
 --加载新资源
-function GameLoginHelper:loadResNew()
+function LoginManager:loadResNew()
 	
 	--加载plist文件
 	local index = 1
@@ -185,4 +185,4 @@ function GameLoginHelper:loadResNew()
 end
 
 
-return GameLoginHelper
+return LoginManager

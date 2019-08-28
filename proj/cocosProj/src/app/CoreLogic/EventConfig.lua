@@ -4,13 +4,13 @@
 		内部消息定义
   ]]--
 
-local GameEventDefine = GameEventDefine or {}
+local GameEventConfig = GameEventConfig or {}
 
 --[[  
 	英雄信息
 	升级
   ]]--
-GameEventDefine["HEROINFO"] = {
+GameEventConfig["HEROINFO"] = {
 	["KEY"] 	= "kEventDef.HeroInfo",
 	["LVUP"]	= "kEventDef.HeroInfo.LvUp",
 	["TIERUP"]	= "kEventDef.HeroInfo.TierUp",
@@ -20,7 +20,7 @@ GameEventDefine["HEROINFO"] = {
 }
 
 --宠物信息
-GameEventDefine["PETINFO"] = {
+GameEventConfig["PETINFO"] = {
 	["KEY"] 	= "kEventDef.PetInfo",
 	["LVUP"]	= "kEventDef.PetInfo.LvUp",
 	["TIERUP"]	= "kEventDef.PetInfo.TierUp",
@@ -32,4 +32,4 @@ GameEventDefine["PETINFO"] = {
 
 
 
-return GameEventDefine
+return GameEventConfig

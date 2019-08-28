@@ -1,6 +1,6 @@
 --code by ZPC 2019/07/17
 
-local GameMacros = {
+local GameGlobalConfig = {
 
 	--场景层级
 	ZOrderControl = {
@@ -64,4 +64,4 @@ local GameMacros = {
 }
 
 
-return GameMacros
+return GameGlobalConfig
