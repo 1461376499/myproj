@@ -28,9 +28,7 @@ function BaseUI:initialization(uidef, args)
 	self:_initBase(uidef)
 	self:_bindImplent(uidef.implent)
 	self:_addEventDef()
-	for i = 1, 30 do
-		self:_loadCsb(uidef.csb)
-	end
+	self:_loadCsb(uidef.csb)
 
 	--调用派生类的init
 	self:init(args)
@@ -72,7 +70,7 @@ end
 function BaseUI:onCleanup()
 	self:_destory()
 	self:disableNodeEvents()
-	EventHelper:removeListener(self.referenceIndex)
+	EventDispatcher:removeListener(self.referenceIndex)
 end
 
 --注册自定义事件
@@ -162,10 +160,10 @@ function BaseUI:_initBase(uidef)
 	self:setCascadeOpacityEnabled(true)
 
 	--当前场景变量
-	self.scene = SceneHelper:getRunningScene()
+	self.scene = SceneManager:getRunningScene()
 
 	--注册全局监听
-	EventHelper:registerListener(self)
+	EventDispatcher:registerListener(self)
 
 	--设置名字
 	self:setName(uidef.name)
