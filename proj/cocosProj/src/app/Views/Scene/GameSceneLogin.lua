@@ -26,6 +26,16 @@ function GameSceneLogin:loadWidget()
 
 	self.loginLayer = CommonHelper:addUIModal(UIDefine.LoginLayer)
 		:setClosedCallback(function() print("关闭了界面")  end )
+
+	local btn = ccui.Button:create("update/login_btn_account.png","")
+	:addTo(self)
+	:setPosition(500,300)
+	:setContentSize(cc.size())
+--	self.pvpSpine = SpineManager:createSpine("spine/test/lueduo_jiesuan", spineEvent)
+--	self.pvpSpine:addTo(btn:getRendererNormal())
+----	self.pvpSpine:setAnimation(0,animations[1],false)
+--	self.pvpSpine:setPosition(0,0)
+
 end
 
 --第三方登录结果

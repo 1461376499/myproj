@@ -1,7 +1,7 @@
 local UIDefine = {}
 
 --登录界面
-UIDefine.LoginLayer = {script = "app.views.ui.LoginLayer", csb = "layer/login/login_register_mail.csb", implent = "app.model.LoginModel"}
+UIDefine.LoginLayer = {script = "app.views.ui.LoginLayer", csb = "layer/login/login_register_mail.csb", model = "app.model.LoginModel"}
 
 --注册界面
 UIDefine.RegisterLayer = {script = "app.views.ui.RegisterLayer", csb =  "layer/bangzhu.csb"}

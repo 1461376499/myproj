@@ -13,6 +13,10 @@ function BaseUI:setReference(index)
 	self.referenceIndex = index
 end
 
+function BaseUI:onEnter()
+	print("BaseUI:onEnter")
+end
+
 function BaseUI:onEnterTransitionFinish()
 	--UI打开后的调用
 	print("BaseUI:onEnterTransitionFinish")
@@ -25,10 +29,15 @@ end
 --@prama1 uidef
 --@prama2 其他参数
 function BaseUI:initialization(uidef, args)
-	self:_initBase(uidef)
-	self:_bindImplent(uidef.implent)
+	if uidef == nil then
+		return;
+	end
+	self.uidef = uidef
+
+	self:_initBase()
+	self:_bindModel()
 	self:_addEventDef()
-	self:_loadCsb(uidef.csb)
+	self:_loadCsb()
 
 	--调用派生类的init
 	self:init(args)
@@ -77,10 +86,10 @@ end
 --@param1:子事件名
 --@param2:监听函数
 function BaseUI:addCustomEvent(sub, callFunc)
-	if self.Implent == nil then
+	if self.Model == nil then
 		return;
 	end
-	local key = self.Implent.VIEW_EVENT_BINDING[sub]
+	local key = self.Model.VIEW_EVENT_BINDING[sub]
 	self.customEventArray[key] = callFunc
 end
 
@@ -146,7 +155,7 @@ end
 
 -----------------------------------internal function ---------------------------------------------
 --初始化通用属性
-function BaseUI:_initBase(uidef)
+function BaseUI:_initBase()
 	--UI的引用计数索引
 	self.referenceIndex = -1
 	
@@ -166,20 +175,22 @@ function BaseUI:_initBase(uidef)
 	EventDispatcher:registerListener(self)
 
 	--设置名字
-	self:setName(uidef.name)
+	self:setName(self.uidef.name)
 end
 
 --加载实例
-function BaseUI:_bindImplent(imp)
-	if imp == nil or imp == "" then
+function BaseUI:_bindModel()
+	local model = self.uidef.model
+	if model == nil or model == "" then
 		return
 	end
-	self.Implent = require(imp).new()
+	self.Model = require(self.uidef.model).new()
 end
 
 
 --加载csb文件
-function BaseUI:_loadCsb(csb)
+function BaseUI:_loadCsb()
+	local csb = self.uidef.csb
 	if csb == "" then
 		return;
 	end
@@ -192,9 +203,9 @@ end
 
 --销毁实例
 function BaseUI:_destoryImp()
-	if self.Implent then
-		self.Implent:destory()
-		self.Implent = nil
+	if self.Model then
+		self.Model:destory()
+		self.Model = nil
 	end
 end
 
@@ -213,10 +224,10 @@ end
 
 --注册自定义事件
 function BaseUI:_addEventDef()
-	if self.Implent == nil then
+	if self.Model == nil then
 		return;
 	end
-	self.customEventListener = cc.EventListenerCustom:create(self.Implent.VIEW_EVENT_BINDING["KEY"], function(eventData)
+	self.customEventListener = cc.EventListenerCustom:create(self.Model.VIEW_EVENT_BINDING["KEY"], function(eventData)
 		local userData = eventData["_userData"]
 		local sub	   = userData["sub"]
 		local data	   = userData["data"]

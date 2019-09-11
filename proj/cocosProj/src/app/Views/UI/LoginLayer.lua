@@ -44,16 +44,21 @@ function LoginLayer:initUI()
 	local function spineEvent(spine, event)
 		if event.type == "complete" then
 			self.pvpSpine:setAnimation(0, animations[index], false)
-			index = index + 1
+			--index = index + 1
 			if index > #animations then
 				index = 1
 			end
 		end
 	end
+
+	local btn = ccui.Button:create("update/login_btn_account.png","")
+	:addTo(self)
+	:setPosition(500,300)
+
 	self.pvpSpine = SpineManager:createSpine("spine/test/lueduo_jiesuan", spineEvent)
-	self.pvpSpine:addTo(self)
-	self.pvpSpine:setAnimation(0,animations[1],false)
-	self.pvpSpine:setPosition(500,300)
+	self.pvpSpine:addTo(btn)
+--	self.pvpSpine:setAnimation(0,animations[1],false)
+	self.pvpSpine:setPosition(0,300)
 
 	local groupUI = require("app.views.ui.GroupUI.GroupMain").new()
 end
