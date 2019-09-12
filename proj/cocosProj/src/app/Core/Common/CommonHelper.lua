@@ -141,7 +141,7 @@ function CommonHelper:formatNumberExtend(number, format)
 		local FormatByte = {}
 		FormatByte.data = 
 		{
-			{ id = GlobalConfig.NumberFormat.FORMAT_NORMAL, 	   value = 0, maxLimit = 1000000000000 },
+			{ id = GlobalConfig.NumberFormat.FORMAT_NORMAL, 	 value = 0, maxLimit = 1000000000000 },
 			{ id = GlobalConfig.NumberFormat.FORMAT_NUMBER_FOUR, value = 4, maxLimit = 1000000000000 },
 			{ id = GlobalConfig.NumberFormat.FORMAT_NUMBER_FIVE, value = 5, maxLimit = 10000000000000 },
 			{ id = GlobalConfig.NumberFormat.FORMAT_NUMBER_SIX,  value = 6, maxLimit = 100000000000000 }

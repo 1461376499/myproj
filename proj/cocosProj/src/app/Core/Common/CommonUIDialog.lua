@@ -13,9 +13,9 @@ function CommonUIDialog:ctor(ui, blankClose)
 end
 
 function CommonUIDialog:initUI()
-	--底层响应关闭弹窗
+	--底层响应关闭弹窗--屏蔽下层点击事件
 	local winSize = ccDirector:getWinSize()
-	self.shieldLayer = ccui.Layout:create()
+	self.bottomShieldLayer = ccui.Layout:create()
 		:addTo(self,10)
 		:setContentSize(winSize)
 		:setIgnoreAnchorPointForPosition(false)
@@ -39,6 +39,15 @@ function CommonUIDialog:initUI()
 	self.uiNode.originScale = self.uiNode:getScale()
 	self.uiNode.originPos   = ccp(self.uiNode:getPositionX(),  self.uiNode:getPositionY())
 	self.uiNode.originRotate= self.uiNode:getRotation()
+
+	--屏蔽上层点击事件
+	self.topSheildLayer = ccui.Layout:create()
+	self.topSheildLayer:setContentSize(winsize)
+	self.topSheildLayer:setIgnoreAnchorPointForPosition(false)
+	self.topSheildLayer:setAnchorPoint(cc.p(0.5,0.5))
+	self.topSheildLayer:setPosition(cc.p(winsize.width/2,winsize.height/2))
+	self.topSheildLayer:setTouchEnabled(true)
+    self:addChild(self.topSheildLayer, 200)
 end
 
 function CommonUIDialog:onEnterTransitionFinish()
@@ -65,6 +74,7 @@ end
 function CommonUIDialog:doShowAnimation(showType)
 	self:setVisible(true)
 	local function cb()
+		self.topSheildLayer:setVisible(false)
 		if self.openCallback then
 			self.openCallback()
 		end
@@ -162,6 +172,7 @@ end
 function CommonUIDialog:close(cb)
 	
 --	self:doCloseHide()
+	self.topSheildLayer:setVisible(true)
 	self:doCloseAnimation(self.showType)
 end
 
