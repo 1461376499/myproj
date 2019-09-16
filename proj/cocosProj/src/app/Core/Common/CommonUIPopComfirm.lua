@@ -16,7 +16,7 @@ function CommonUIPopComfirm:init()
 	self._tapBlankClose = true	
 
 	--样式	
-	self._style = self.ShowStyle.YesNo
+	self._style = CommonUIPopComfirm.ShowStyle.YesNo
 
 	--标题
 	self._title = ""
@@ -71,16 +71,16 @@ end
 --初始化数据
 function CommonUIPopComfirm:initData()
 	self.text_msg:setString(self._content)
-	if self._style == self.ShowStyle.YesNo then
+	if self._style == CommonUIPopComfirm.ShowStyle.YesNo then
 		self:showYesNoPopup()
-	elseif self._style == self.ShowStyle.Ok then
+	elseif self._style == CommonUIPopComfirm.ShowStyle.Ok then
 		self:showOkPopup()
 	end
 end
 
 --显示yes/no弹窗样式
 function CommonUIPopComfirm:showYesNoPopup()
-	self._style = self.ShowStyle.YesNo
+	self._style = CommonUIPopComfirm.ShowStyle.YesNo
 	self.btn_ok:setVisible(false)
 	self.btn_no:setVisible(true)
 	self.btn_yes:setVisible(true)
@@ -89,7 +89,7 @@ end
 
 --显示ok弹窗样式
 function CommonUIPopComfirm:showOkPopup()
-	self._style = self.ShowStyle.Ok
+	self._style = CommonUIPopComfirm.ShowStyle.Ok
 	self.btn_no:setVisible(false)
 	self.btn_yes:setVisible(false)
 	self.btn_ok:setVisible(true)
