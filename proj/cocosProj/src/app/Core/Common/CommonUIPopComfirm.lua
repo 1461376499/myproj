@@ -3,15 +3,15 @@
 	yesno/ok样式弹窗
 ]]--
 
-local CommonUIPopup = class("CommonUIPopup", BaseUI)
+local CommonUIPopComfirm = class("CommonUIPopComfirm", BaseUI)
 
 --显示样式
-CommonUIPopup.ShowStyle = {
+CommonUIPopComfirm.ShowStyle = {
 	YesNo = 1,
 	Ok    = 2}
 
 --初始化
-function CommonUIPopup:init()
+function CommonUIPopComfirm:init()
 	--点击空白区就关闭
 	self._tapBlankClose = true	
 
@@ -29,7 +29,7 @@ function CommonUIPopup:init()
 end
 
 --初始化UI及点击事件
-function CommonUIPopup:initUI()
+function CommonUIPopComfirm:initUI()
 	local widget = self.widget:getChildByName("widget")
 	widget:setTouchEnabled(true)
 	widget:setSwallowTouches(true)
@@ -69,7 +69,7 @@ function CommonUIPopup:initUI()
 end
 
 --初始化数据
-function CommonUIPopup:initData()
+function CommonUIPopComfirm:initData()
 	self.text_msg:setString(self._content)
 	if self._style == self.ShowStyle.YesNo then
 		self:showYesNoPopup()
@@ -79,7 +79,7 @@ function CommonUIPopup:initData()
 end
 
 --显示yes/no弹窗样式
-function CommonUIPopup:showYesNoPopup()
+function CommonUIPopComfirm:showYesNoPopup()
 	self._style = self.ShowStyle.YesNo
 	self.btn_ok:setVisible(false)
 	self.btn_no:setVisible(true)
@@ -88,7 +88,7 @@ function CommonUIPopup:showYesNoPopup()
 end
 
 --显示ok弹窗样式
-function CommonUIPopup:showOkPopup()
+function CommonUIPopComfirm:showOkPopup()
 	self._style = self.ShowStyle.Ok
 	self.btn_no:setVisible(false)
 	self.btn_yes:setVisible(false)
@@ -96,43 +96,43 @@ function CommonUIPopup:showOkPopup()
 end
 
 --设置标题
-function CommonUIPopup:setTitle(title)
+function CommonUIPopComfirm:setTitle(title)
 	self._title = title or ""
 	self.txt_title:setString(title)
 end
 
 --设置文字内容
-function CommonUIPopup:setContents(content)
+function CommonUIPopComfirm:setContents(content)
 	self._content = content or ""
 	self.text_msg:setString(content)
 end
 
 --注册yes按钮点击回调
-function CommonUIPopup:setYesCallback(callback)
+function CommonUIPopComfirm:setYesCallback(callback)
 	self.yesCallback = callback
 end
 
 --注册no按钮点击回调
-function CommonUIPopup:setNoCallback(callback)
+function CommonUIPopComfirm:setNoCallback(callback)
 	self.noCallback = callback
 end
 
 --注册ok按钮点击回调
-function CommonUIPopup:setOkCallback(callback)
+function CommonUIPopComfirm:setOkCallback(callback)
 	self.okCallback = callback
 end
 
 --设置是否显示关闭按钮
-function CommonUIPopup:setCloseBtnEnabled(enabled)
+function CommonUIPopComfirm:setCloseBtnEnabled(enabled)
 	self.btn_close:setVisible(enabled)
 end
 
 --设置是否点击空白区域关闭弹窗
-function CommonUIPopup:setTapBlankClose(boolean)
+function CommonUIPopComfirm:setTapBlankClose(boolean)
 	if boolean == nil then
 		boolean = true
 	end
 	self._tapBlankClose = boolean
 end
 
-return CommonUIPopup
+return CommonUIPopComfirm
