@@ -1,25 +1,25 @@
 --code by ZPC 2019/07/16
-local BaseImplent = class("BaseImplent")
+local BaseModel = class("BaseModel")
 
-BaseImplent.VIEW_EVENT_BINDING = ""
+BaseModel.VIEW_EVENT_BINDING = ""
 
-function BaseImplent:ctor()
+function BaseModel:ctor()
 	
 end
 
-function BaseImplent:init(params)
+function BaseModel:init(params)
 	
 end
 
 --定向发送消息到绑定的view去
-function BaseImplent:dispatchEvent(sub, data)
+function BaseModel:dispatchEvent(sub, data)
 	EventDispatcher:dispatchEvent(self.VIEW_EVENT_BINDING, sub, data)
 end
 
 --销毁实例
-function BaseImplent:destory()
+function BaseModel:destory()
 	
 end
 
 
-return BaseImplent
+return BaseModel

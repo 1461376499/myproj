@@ -26,12 +26,12 @@ function LoginLayer:initUI()
 	self.panel_password.button:addClickEventListener(function()
 --		CommonHelper:addUIModal(UIDefine.RegisterLayer)
 --		CommonHelper:shader_Default(self)
---		SceneManager:gotoScene("GameSceneBattle")
-		self.pvpSpine:setAnimation(0, self.aniamtions[self.aniamtionIdx], false)
-		self.aniamtionIdx = self.aniamtionIdx + 1
-		if self.aniamtionIdx > #self.aniamtions then
-			self.aniamtionIdx = 1
-		end
+		SceneManager:pushScene("GameSceneBattle")
+--		self.pvpSpine:setAnimation(0, self.aniamtions[self.aniamtionIdx], false)
+--		self.aniamtionIdx = self.aniamtionIdx + 1
+--		if self.aniamtionIdx > #self.aniamtions then
+--			self.aniamtionIdx = 1
+--		end
 	end)
 
 	local text = CommonHelper:createBMFontLabel("5")
@@ -55,10 +55,10 @@ function LoginLayer:initUI()
 	:addTo(self)
 	:setPosition(500,300)
 
-	self.pvpSpine = SpineManager:createSpine("spine/test/lueduo_jiesuan", spineEvent)
-	self.pvpSpine:addTo(btn)
+--	self.pvpSpine = SpineManager:createSpine("spine/test/lueduo_jiesuan", spineEvent)
+--	self.pvpSpine:addTo(btn)
 --	self.pvpSpine:setAnimation(0,animations[1],false)
-	self.pvpSpine:setPosition(0,300)
+--	self.pvpSpine:setPosition(0,300)
 
 	local groupUI = require("app.views.ui.GroupUI.GroupMain").new()
 end

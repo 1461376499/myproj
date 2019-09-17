@@ -74,7 +74,7 @@ end
 	弹出一个弹窗yes/no/ok样式
 ]]--
 function CommonHelper:showYesNoPopup(content, yesCallback, noCallback, tapBlankClose)
-	local pupop = CommonHelper:addUIModal(UIDefine.CommonUIPopup)
+	local pupop = CommonHelper:addUIModal(UIDefine.CommonUIPopComfirm)
 	pupop:showYesNoPopup()
 	pupop:setContents(content)
 	pupop:setYesCallback(yesCallback)
@@ -84,7 +84,7 @@ function CommonHelper:showYesNoPopup(content, yesCallback, noCallback, tapBlankC
 end
 
 function CommonHelper:showOkPopup(title, content, okCallback, tapBlankClose, isShowCloseBtn)
-	local pupop = CommonHelper:addUIModal(UIDefine.CommonUIPopup)
+	local pupop = CommonHelper:addUIModal(UIDefine.CommonUIPopComfirm)
 	pupop:showOkPopup()
 	pupop:setTitle(title)
 	pupop:setContents(content)

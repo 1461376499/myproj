@@ -21,7 +21,7 @@ end
 
 function GameSceneLogin:loadWidget()
 	cc.Label:createWithSystemFont("login", "Arial", 40)
-		:move(display.cx, display.cy + 200)
+		:move(display.cx, display.cy + 400)
 		:addTo(self)
 
 	self.loginLayer = CommonHelper:addUIModal(UIDefine.LoginLayer)

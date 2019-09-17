@@ -7,6 +7,6 @@ UIDefine.LoginLayer = {script = "app.views.ui.LoginLayer", csb = "layer/login/lo
 UIDefine.RegisterLayer = {script = "app.views.ui.RegisterLayer", csb =  "layer/bangzhu.csb"}
 
 --yes no ok弹窗
-UIDefine.CommonUIPopup = {script = "app.Core.Common.CommonUIPopup",csb =  "layer/general/confirmpop_layer.csb"}
+UIDefine.CommonUIPopComfirm = {script = "app.Core.Common.CommonUIPopComfirm",csb =  "layer/general/confirmpop_layer.csb"}
 
 return UIDefine

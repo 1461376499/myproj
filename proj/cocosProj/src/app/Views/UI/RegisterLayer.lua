@@ -1,7 +1,6 @@
 local RegisterLayer = class("RegisterLayer", BaseUI)
 
 function RegisterLayer:init()
-	CommonHelper:addUIModal(UIDefine.LoginLayer)
 	self:initUI()
 end
 
@@ -15,8 +14,9 @@ function RegisterLayer:initUI()
 			CommonHelper:showOkPopup("system msg",
 				"congratulation you get a equipment",
 				function()
---					SceneManager:popScene()
 					EventDispatcher:broadcastEvent("keykey", "你好")
+					SceneManager:popScene()
+					
 				end,
 				false, 
 				true)

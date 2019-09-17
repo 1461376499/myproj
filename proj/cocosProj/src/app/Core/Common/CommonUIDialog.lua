@@ -42,10 +42,10 @@ function CommonUIDialog:initUI()
 
 	--屏蔽上层点击事件
 	self.topSheildLayer = ccui.Layout:create()
-	self.topSheildLayer:setContentSize(winsize)
+	self.topSheildLayer:setContentSize(winSize)
 	self.topSheildLayer:setIgnoreAnchorPointForPosition(false)
 	self.topSheildLayer:setAnchorPoint(cc.p(0.5,0.5))
-	self.topSheildLayer:setPosition(cc.p(winsize.width/2,winsize.height/2))
+	self.topSheildLayer:setPosition(cc.p(winSize.width/2,winSize.height/2))
 	self.topSheildLayer:setTouchEnabled(true)
     self:addChild(self.topSheildLayer, 200)
 end

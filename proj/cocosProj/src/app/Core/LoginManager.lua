@@ -8,31 +8,31 @@ local proloadingList = {
 	function()
 		--json.encode_sparse_array(true)		//这是cjson里的极度稀疏数组,cjson.encode({[11] = "data"})，将输出:{"1000":"data"},  json.encode({[11] = "data"})，将输出:[null,null,null,null,null,null,null,null,null,null,"data"]
 		GlobalConfig	= require("app.Core.GlobalConfig")
-		EventConfig	= require("app.Core.EventConfig")
+		EventConfig		= require("app.Core.EventConfig")
 	end,
 	function()
 		EventDispatcher = require("app.Core.EventDispatcher")
 		UIDefine		= require("app.Core.UIDefine")
 	end,
 	function()
-		DataConfig  = require("app.DataConfig.GameDataConfig")
+		DataConfig		= require("app.DataConfig.GameDataConfig")
 		CommonHelper	= require("app.Core.Common.CommonHelper").new()				
 	end,
 	function()
-		BasicManager = require("app.Core.BasicManager")
-		ShaderManager = require("app.Core.ShaderManager")
+		BasicManager	= require("app.Core.BasicManager")
+		ShaderManager	= require("app.Core.ShaderManager")
 	end,
 	function()
-		BaseUI			= require("app.views.ui.BaseUI")
-		BaseScene		= require("app.views.scene.BaseScene")
-		BaseImplent		= require("app.model.BaseModel").new()
+		BaseUI			= require("app.Views.UI.BaseUI")
+		BaseScene		= require("app.Views.Scene.BaseScene")
+		BaseModel		= require("app.Model.BaseModel").new()
 	end,
 	function()	
-		SpineManager = require("app.Core.SpineManager").new()
+		SpineManager	= require("app.Core.SpineManager").new()
 	end,
 	function()
-		PopWindowManager = require("app.Core.PopWindowManager").new()
-		MusicManager		= require("app.Core.MusicManager").new()
+		PopWindowManager= require("app.Core.PopWindowManager").new()
+		MusicManager	= require("app.Core.MusicManager").new()
 	end,
 	function()
 		UICacheManager	= require("app.Core.UICacheManager").new()
@@ -138,6 +138,7 @@ function LoginManager:unloadResOld()
 
 		--todo清理战斗对象池
 
+
 		--移除所有加载的非plist图片
 		self:removeOtherFrames()
 
@@ -166,7 +167,7 @@ function LoginManager:removeUpdateFrames()
 	end
 end
 
---加载新资源
+--加载图集
 function LoginManager:loadResNew()
 	
 	--加载plist文件

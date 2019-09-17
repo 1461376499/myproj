@@ -5,7 +5,7 @@ function EventDispatcher:init()
 	self.m_UIContainer = {}
 
 	--动态引用计数，每添加一个UI组件都会分配一个唯一值
-	self.uiRefernceIndex = 0
+	self.uiRefernceIndex = 1
 end
 
 --发送订阅的自定义事件/接收者只有一个
@@ -20,17 +20,18 @@ end
 
 --注册广播监听观察者
 --参数:baseUI组件
-function EventDispatcher:registerListener(target)
-	self.uiRefernceIndex = self.uiRefernceIndex + 1
+function EventDispatcher:registerListener(target)	
+	target.uiRefernceIndex = self.uiRefernceIndex
+	table.insert(self.m_UIContainer, target)
 
-	table.insert(self.m_UIContainer, {ui = target, referenceIndex = self.uiRefernceIndex})
+	self.uiRefernceIndex = self.uiRefernceIndex + 1
 end
 
 --移除广播监听观察者
-function EventDispatcher:removeListener(index)
+function EventDispatcher:removeListener(target)
 	for j = #self.m_UIContainer, 1, -1 do
 		local layer = self.m_UIContainer[j]
-		if layer.referenceIndex == index then
+		if layer.uiRefernceIndex == target.uiRefernceIndex then
 			table.remove(self.m_UIContainer, j)
 		end
 	end

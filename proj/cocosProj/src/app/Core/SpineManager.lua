@@ -6,7 +6,9 @@ function GameSpineHelper:createSpine(path, callfunc, scale)
 	scale = scale or 1
 	local spine = sp.SkeletonAnimation:createWithBinaryFile(skel, atlas, scale)
 	local function func(...)
-		callfunc(spine, ...)
+		if callfunc then
+			callfunc(spine, ...)
+		end
 	end
 	spine:registerSpineEventHandler(func, sp.EventType.ANIMATION_START) 
 	spine:registerSpineEventHandler(func, sp.EventType.ANIMATION_END) 

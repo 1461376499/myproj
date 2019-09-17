@@ -8,10 +8,6 @@ function BaseUI:ctor()
 
 end
 
---设置唯一Index
-function BaseUI:setReference(index)
-	self.referenceIndex = index
-end
 
 function BaseUI:onEnter()
 	print("BaseUI:onEnter")
@@ -79,7 +75,7 @@ end
 function BaseUI:onCleanup()
 	self:_destory()
 	self:disableNodeEvents()
-	EventDispatcher:removeListener(self.referenceIndex)
+	EventDispatcher:removeListener(self)
 end
 
 --注册自定义事件
@@ -156,8 +152,6 @@ end
 -----------------------------------internal function ---------------------------------------------
 --初始化通用属性
 function BaseUI:_initBase()
-	--UI的引用计数索引
-	self.referenceIndex = -1
 	
 	--自定义事件列表
 	self.customEventArray = {}
