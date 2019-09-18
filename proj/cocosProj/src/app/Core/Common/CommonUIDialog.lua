@@ -7,7 +7,9 @@ local CommonUIDialog = class("CommonUIDialog", cc.Layer)
 function CommonUIDialog:ctor(ui, blankClose)
 	self.name = self.__cname.."_"..ui.name
 	self:setName(self.name)
-	self.scene = SceneManager:getRunningScene()  --每一个弹窗绑定场景，以便场景退出清理弹窗	
+
+	--每一个弹窗绑定场景，以便场景退出清理弹窗
+	self.scene = SceneManager:getRunningScene()  	
 
 	self.blankClose = blankClose or true
 	self.uiNode = ui

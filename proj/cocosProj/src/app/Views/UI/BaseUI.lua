@@ -6,10 +6,22 @@ local BaseUI = class("BaseUI", cc.Layer)
 
 function BaseUI:ctor(uidef, args)	
 	self.name = self.__cname
-	print("BaseUI:ctor",self.name)
 	self:setName(self.name)
+	print("BaseUI:ctor",self.name)
+	if uidef == nil then
+		print("配置有误",self.name)
+		return;
+	end
 	
-	self:initialization(uidef, args)
+	self.uidef = uidef
+
+	self:_initBase()
+	self:_bindModel()
+	self:_addEventDef()
+	self:_loadCsb()
+
+	self:init(args)
+	self:initFinish()
 end
 
 
@@ -21,7 +33,6 @@ function BaseUI:onEnter()
 end
 
 function BaseUI:onEnterTransitionFinish()
-	--UI打开后的调用
 	print("BaseUI:onEnterTransitionFinish", self.name)
 	if not self._isDialog and self.openCallback then	
 		self.openedCallback()
@@ -32,19 +43,7 @@ end
 --@prama1 uidef
 --@prama2 其他参数
 function BaseUI:initialization(uidef, args)
-	if uidef == nil then
-		return;
-	end
-	self.uidef = uidef
-
-	self:_initBase()
-	self:_bindModel()
-	self:_addEventDef()
-	self:_loadCsb()
-
-	--调用派生类的init
-	self:init(args)
-	self:initFinish()
+	
 end
 
 --请重写
@@ -103,15 +102,22 @@ function BaseUI:close()
 	if self.dialogLayer then
 		self.dialogLayer:close()
 	else
-		self:runAction(cc.RemoveSelf:create())
-		if self.closeCallback then
-			self.closeCallback()
-			self.closeCallback = nil
+		if self.willCloseCallback then
+			self:willCloseCallback()
+			self.willCloseCallback = nil
 		end
+		self:runAction(cc.Sequence:create(cc.RemoveSelf:create(), 
+			cc.CallFunc:create(function()
+				if self.setClosedCallback then
+					self:setClosedCallback()
+					self.setClosedCallback = nil
+				end
+			end)))
+		
 	end
 end
 
---打开UI回调
+--打开UI前回调
 function BaseUI:setWillOpenCallback(cb)
 	if self.dialogLayer then
 		self.dialogLayer:setWillOpenCallback(cb)
@@ -121,7 +127,7 @@ function BaseUI:setWillOpenCallback(cb)
 	return self
 end
 
---打开UI回调
+--打开UI后回调
 function BaseUI:setOpenedCallback(cb)
 	if self.dialogLayer then
 		self.dialogLayer:setOpenedCallback(cb)
@@ -131,7 +137,7 @@ function BaseUI:setOpenedCallback(cb)
 	return self
 end
 
---关闭UI回调
+--关闭UI前回调
 function BaseUI:setWillCloseCallback(cb)
 	if self.dialogLayer then
 		self.dialogLayer:setWillCloseCallback(cb)
@@ -141,7 +147,7 @@ function BaseUI:setWillCloseCallback(cb)
 	return self
 end
 
---关闭UI回调
+--关闭UI后回调
 function BaseUI:setClosedCallback(cb)
 	if self.dialogLayer then
 		self.dialogLayer:setClosedCallback(cb)
@@ -170,15 +176,19 @@ function BaseUI:show(showType)
 	return self
 end
 
+--加载csb文件
+function BaseUI:loadCsb(csb)
+	local widget = self:_loadCsb(csb)
+	return widget
+end
 
-
-
-
-
-
-
-
-
+-----------------------------------internal function ---------------------------------------------
+-----------------------------------internal function ---------------------------------------------
+-----------------------------------internal function ---------------------------------------------
+-----------------------------------internal function ---------------------------------------------
+-----------------------------------internal function ---------------------------------------------
+-----------------------------------internal function ---------------------------------------------
+-----------------------------------internal function ---------------------------------------------
 -----------------------------------internal function ---------------------------------------------
 --初始化通用属性
 function BaseUI:_initBase()
@@ -211,10 +221,9 @@ function BaseUI:_bindModel()
 	self.Model = require(self.uidef.model).new()
 end
 
-
 --加载csb文件
-function BaseUI:_loadCsb()
-	local csb = self.uidef.csb
+function BaseUI:_loadCsb(csb)
+	local csb = csb or self.uidef.csb
 	if csb == "" then
 		return;
 	end
@@ -226,7 +235,7 @@ function BaseUI:_loadCsb()
 		:setPosition(self:getCenter())
 	self.widget = widget
 
-	
+	return widget
 end
 
 --销毁实例
