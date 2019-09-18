@@ -64,5 +64,10 @@ function MyApp:onEnterForeground()
 
 end
 
+function MyApp:endGame()
+	GameManager:endGame()
+	ccDirector:endToLua()
+end
+
 
 return MyApp

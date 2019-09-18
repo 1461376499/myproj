@@ -575,7 +575,7 @@ end
 
 
 function CommonHelper:getCurrentFontPath()
-    local fontName = DataConfig.LangSwitch.getItem(BasicManager.m_language,"FontName")
+    local fontName = DataConfig.LangSwitch.getItem(GameManager.m_language,"FontName")
     return string.format( "font/fnt_%s.fnt", fontName)
 end
 
@@ -587,7 +587,7 @@ function CommonHelper:createBMFontLabel(_text, _hAlignment, _bmfontPath, _maxLin
     _maxLineWidth = _maxLineWidth or 0
     _imageOffset = _imageOffset or cc.p(0, 0)
 
-    local _scale = DataConfig.LangSwitch.getItem(BasicManager.m_language,"Scale")
+    local _scale = DataConfig.LangSwitch.getItem(GameManager.m_language,"Scale")
     local _label = cc.Label:createWithBMFont(_bmfontPath, _text, _hAlignment, _maxLineWidth, _imageOffset)
     _label:setScale(_scale)
 
@@ -596,7 +596,7 @@ end
 
 --创建ttf字体
 function CommonHelper:createTTFFontLabel(str,_bmfontPath,fontsize,size,type1,type2)
-    local _scale = DataConfig.LangSwitch.getItem(BasicManager.m_language,"Scale")
+    local _scale = DataConfig.LangSwitch.getItem(GameManager.m_language,"Scale")
     local _label = cc.Label:createWithTTF(str,_bmfontPath,fontsize,size,type1,type2)
     _label:setScale(_scale)
     return _label

@@ -1,3 +1,7 @@
+--[[
+	spine动画的缓存已经在spine.lib里做了缓存
+]]
+
 local GameSpineHelper = class("GameSpineHelper")
 
 function GameSpineHelper:createSpine(path, callfunc, scale)

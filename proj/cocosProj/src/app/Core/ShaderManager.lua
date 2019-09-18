@@ -1,16 +1,16 @@
-local GameShaderHelper = class("GameShaderHelper")
+local ShaderManager = class("ShaderManager")
 
 local glProgramCache = cc.GLProgramCache:getInstance()
 
-function GameShaderHelper:ctor()
+function ShaderManager:ctor()
 	
 end
 
-function GameShaderHelper:init()
+function ShaderManager:init()
 	
 end
 
-function GameShaderHelper:get(shaderConfig)		
+function ShaderManager:get(shaderConfig)		
 	local _key = shaderConfig["key"]
 	local _glGLProgram = glProgramCache:getGLProgram(_key)
 	if _glGLProgram == nil then	
@@ -28,7 +28,7 @@ function GameShaderHelper:get(shaderConfig)
 	return _glGLProgram
 end
 
-function GameShaderHelper:render(node, shaderConfig, func)
+function ShaderManager:render(node, shaderConfig, func)
 	if shaderConfig == nil then
 		return;
 	end
@@ -46,7 +46,7 @@ function GameShaderHelper:render(node, shaderConfig, func)
 end
 
 
-function GameShaderHelper:set(node, glstate)
+function ShaderManager:set(node, glstate)
 	local name = node:getName()
 
 	--[[if type of the node is UI and has virtualRender, means that classes extend UIWidget, you must consider the virtualRender node]]
@@ -63,8 +63,8 @@ function GameShaderHelper:set(node, glstate)
 	end
 end
 
-function GameShaderHelper:clear()
-	glProgramCache:destroyInstance()
+function ShaderManager:clear()
+	cc.GLProgramCache:destroyInstance()
 end
 
-return GameShaderHelper
+return ShaderManager

@@ -30,8 +30,8 @@ end
 
 --[[自动清理场景弹窗，和节点监听， 通常情况不要重写这个函数]]
 function BaseScene:onCleanup()
-	PopWindowManager:cleanup(self)	
-	self:disableNodeEvents()
+	PopWindowManager:cleanup()	
+	self:disableNodeEvents()	
 end
 
 

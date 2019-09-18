@@ -19,23 +19,28 @@ function UICacheManager:put(key, count)
 end
 
 function UICacheManager:get(key, parent)
-	local retWidget = self:_get()
-	if retWidget then
-		retWidget:addTo(parent)
+	local ret = self:_get(key)
+	if ret == nil then
+		self:put(key)
+		ret = self:_get(key)
+	end	
+	if ret then
+		ret:addTo(parent)
 
 		--put的时候retain了
-		retWidget:release()
+		ret:release()
 	end
-	return retWidget;
+	return ret;
 end
 
-function UICacheManager:collect()
-
-
+--回收
+function UICacheManager:free(obj)
+	obj.inPool = false
+	self:_put(obj)
 end
 
 function UICacheManager:clear()
-	for i,obj in ipairs(self.M) do
+	for i,obj in pairs(self.M) do
 		obj:release()
 	end
 	self.M = {}
@@ -47,17 +52,16 @@ end
 
 --[[
 	创建一个对象
-	@prama1: ui路径
+	@prama1: key 路径
 ]]--
-function UICacheManager:_create(_key)
+function UICacheManager:_create(key)
 	self.cacheIdx = self.cacheIdx + 1
-	
 	local obj = CommonHelper:loadWidget(key)
-	obj.poolKey = _key
+	obj.poolKey = key
 	obj.inPool = false
 	obj.index = self.cacheIdx
 
-	
+	return obj
 end
 
 --[[
@@ -82,7 +86,7 @@ function UICacheManager:_get(key)
 	local retObj, index;
 
 	for i, obj in ipairs(self.M) do
-		if obj.inPool and key ==  obj.poolKey then
+		if obj.inPool and key == obj.poolKey then
 			retObj = obj
 			index = i
 			break;

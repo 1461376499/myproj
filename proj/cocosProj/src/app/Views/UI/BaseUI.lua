@@ -73,6 +73,7 @@ end
 
 --清理界面
 function BaseUI:onCleanup()
+	UICacheManager:free(self.widget)
 	self:_destory()
 	self:disableNodeEvents()
 	EventDispatcher:removeListener(self)
@@ -188,11 +189,15 @@ function BaseUI:_loadCsb()
 	if csb == "" then
 		return;
 	end
-	local widget = CommonHelper:loadWidget(csb)
-		:addTo(self)
+	--不直接加载csb文件了,用下面加载并缓存csb
+	--local widget = CommonHelper:loadWidget(csb)
+	local widget = UICacheManager:get(csb,self)
+		--:addTo(self)
 		:setAnchorPoint(ccAchorPointCenter)
 		:setPosition(self:getCenter())
 	self.widget = widget
+
+	
 end
 
 --销毁实例

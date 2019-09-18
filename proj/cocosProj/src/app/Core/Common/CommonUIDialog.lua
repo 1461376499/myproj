@@ -15,7 +15,7 @@ end
 function CommonUIDialog:initUI()
 	--底层响应关闭弹窗--屏蔽下层点击事件
 	local winSize = ccDirector:getWinSize()
-	self.bottomShieldLayer = ccui.Layout:create()
+	self.ShieldLayer = ccui.Layout:create()
 		:addTo(self,10)
 		:setContentSize(winSize)
 		:setIgnoreAnchorPointForPosition(false)
@@ -28,6 +28,17 @@ function CommonUIDialog:initUI()
 				self:close()
 			end
 		end)
+
+	--下方遮罩 
+	self.bottomLayer = ccui.Layout:create()
+	self.bottomLayer:setContentSize(winSize)
+	self.bottomLayer:setBackGroundColorType(ccui.LayoutBackGroundColorType.solid)
+	self.bottomLayer:setBackGroundColor(cc.c3b(0,0,0))
+	self.bottomLayer:setIgnoreAnchorPointForPosition(false)
+	self.bottomLayer:setAnchorPoint(cc.p(0.5,0.5))
+	self.bottomLayer:setPosition(cc.p(winSize.width/2, winSize.height/2))
+	self.bottomLayer:setOpacity(0)
+    self:addChild(self.bottomLayer, 50)
 	
 	self.uiNode:addTo(self, 20)
 		:setIgnoreAnchorPointForPosition(false)
@@ -133,9 +144,9 @@ end
 function CommonUIDialog:hideMask(__direct)
 	self.uiNode:stopAllActions()
 	if __direct then
-		--self.bottomLayer:setOpacity(0)
+		self.bottomLayer:setOpacity(0)
 	else
-		--self.bottomLayer:runAction(cc.FadeTo:create(0.3, 0))
+		self.bottomLayer:runAction(cc.FadeTo:create(0.3, 0))
 	end
 end
 

@@ -15,7 +15,8 @@ end
 function LoginLayer:initUI()
 	self.closeBtn = ccUtils.findChild(self.widget, "closeBtn")
 	self.closeBtn:addClickEventListener(function()
-		self:close()
+--		self:close()
+		__App:endGame()
 	end)
 
 	self.panel_mail = self.widget:getChildByName("panel_mail")

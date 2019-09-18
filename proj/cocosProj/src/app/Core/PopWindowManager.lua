@@ -19,7 +19,7 @@ function PopWindowManager:add(window)
 end
 
 --显示顶层弹窗
-function PopWindowManager:showTop(scene)
+function PopWindowManager:showTop()
 	if #self.popWindows > 0 then
 		local window = self.popWindows[1]
 		window:setVisible(true)
@@ -41,21 +41,21 @@ function PopWindowManager:remove()
 	end
 	local window = self.popWindows[1]
 	if window and window.scene == SceneManager:getRunningScene() then
-		--window:hideMask()
+		window:hideMask()
 		window:setVisible(true)
 	end
 end
 
 --清理所有弹窗
 function PopWindowManager:cleanup(scene)
-	if scene then
+	local sc = scene or SceneManager:getRunningScene()
+	if sc then
 		for index = #self.popWindows, 1, -1 do
 			local window = self.popWindows[index]
-			if window.scene == scene then
+			if window.scene == sc then
 				table.remove(self.popWindows, index)
 			end
 		end
-		--检测是否还有其他场景的弹窗/处理pushscene的情况
 		self:showTop()
 	else
 		self.popWindows = {}

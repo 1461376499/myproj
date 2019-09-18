@@ -19,7 +19,7 @@ local proloadingList = {
 		CommonHelper	= require("app.Core.Common.CommonHelper").new()				
 	end,
 	function()
-		BasicManager	= require("app.Core.BasicManager")
+		GameManager	= require("app.Core.GameManager")
 		ShaderManager	= require("app.Core.ShaderManager")
 	end,
 	function()
@@ -76,7 +76,6 @@ function LoginManager:preLoading(cb)
 
 	--异步加载通用
 	self:loadAsynCommon()
-	release_print("异步加载通用")
 end
 
 function LoginManager:unloadCommon()	
@@ -136,8 +135,10 @@ function LoginManager:unloadResOld()
 		--移除缓存ui
 		UICacheManager:clear()	
 
-		--todo清理战斗对象池
+		--todo清理战斗对象池------------------------
 
+		--清除缓存shader
+		ShaderManager:clear()
 
 		--移除所有加载的非plist图片
 		self:removeOtherFrames()
