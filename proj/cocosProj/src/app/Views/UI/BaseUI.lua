@@ -8,17 +8,19 @@ function BaseUI:ctor(uidef, args)
 	self.name = self.__cname
 	self:setName(self.name)
 	print("BaseUI:ctor",self.name)
+
 	if uidef == nil then
 		print("配置有误",self.name)
 		return;
 	end
-	
+	self._isDialog = false	--是否是弹窗
+
 	self.uidef = uidef
 
 	self:_initBase()
-	self:_bindModel()
-	self:_addEventDef()
 	self:_loadCsb()
+	self:_addEventDef()
+	self:_bindModel()
 
 	self:init(args)
 	self:initFinish()
@@ -26,14 +28,12 @@ end
 
 
 function BaseUI:onEnter()
-	print("BaseUI:onEnter", self.name)
 	if not self._isDialog and self.openCallback then	
 		self.willOpenCallback()
 	end
 end
 
 function BaseUI:onEnterTransitionFinish()
-	print("BaseUI:onEnterTransitionFinish", self.name)
 	if not self._isDialog and self.openCallback then	
 		self.openedCallback()
 	end
@@ -42,8 +42,9 @@ end
 --初始化
 --@prama1 uidef
 --@prama2 其他参数
-function BaseUI:initialization(uidef, args)
-	
+function BaseUI:initBase()
+	self:_initBase()
+	self:_addEventDef()
 end
 
 --请重写
@@ -68,22 +69,32 @@ end
 
 --即将退出
 function BaseUI:onExit()
-	print("BaseUI:onExit", self.name)	
 	self:destory()
+	if not self._isDialog and self.willCloseCallback then
+		self:willCloseCallback()
+		self.willCloseCallback = nil
+	end
 end
 
---多态函数
 function BaseUI:destory()
 	
 end
 
 --清理界面之后
 function BaseUI:onCleanup()	
-	print("BaseUI:onCleanup", self.name)
+
 	EventDispatcher:removeListener(self)
+
 	self:disableNodeEvents()
+
 	UICacheManager:free(self.widget)
-	self:_destory()	
+
+	self:_destory()
+
+	if not self._isDialog and self.closedCallback then
+		self:closedCallback()
+		self.closedCallback = nil
+	end	
 end
 
 --注册自定义事件
@@ -102,18 +113,7 @@ function BaseUI:close()
 	if self.dialogLayer then
 		self.dialogLayer:close()
 	else
-		if self.willCloseCallback then
-			self:willCloseCallback()
-			self.willCloseCallback = nil
-		end
-		self:runAction(cc.Sequence:create(cc.RemoveSelf:create(), 
-			cc.CallFunc:create(function()
-				if self.setClosedCallback then
-					self:setClosedCallback()
-					self.setClosedCallback = nil
-				end
-			end)))
-		
+		self:runAction(cc.RemoveSelf:create())		
 	end
 end
 
@@ -152,7 +152,7 @@ function BaseUI:setClosedCallback(cb)
 	if self.dialogLayer then
 		self.dialogLayer:setClosedCallback(cb)
 	else
-		self.closeCallback = cb
+		self.closedCallback = cb
 	end
 	return self
 end
@@ -207,9 +207,6 @@ function BaseUI:_initBase()
 
 	--注册全局监听
 	EventDispatcher:registerListener(self)
-
-	--设置名字
-	self:setName(self.uidef.name)
 end
 
 --加载实例
@@ -239,7 +236,7 @@ function BaseUI:_loadCsb(csb)
 end
 
 --销毁实例
-function BaseUI:_destoryImp()
+function BaseUI:_destoryModel()
 	if self.Model then
 		self.Model:destory()
 		self.Model = nil
@@ -256,7 +253,7 @@ function BaseUI:_destory()
 	end
 
 	--销毁数据实例
-	self:_destoryImp()
+	self:_destoryModel()
 end
 
 --注册自定义事件

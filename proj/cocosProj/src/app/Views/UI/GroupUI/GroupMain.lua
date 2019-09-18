@@ -6,7 +6,7 @@ local GroupMain = class("GroupMain", BaseUI)
 
 
 function GroupMain:ctor()
-	print("GroupMain:ctor")
+	self:initBase()
 	local csb =  "layer/general/confirmpop_layer.csb"
 	self:loadCsb(csb)
 	local widget = self.widget:getChildByName("widget")

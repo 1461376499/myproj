@@ -1,9 +1,9 @@
-local RegisterImplent = class("RegisterImplent", BaseImplent)
+local RegisterModel = class("RegisterModel", BaseImplent)
 
-RegisterImplent.VIEW_EVENT_BINDING = EventConfig["PETINFO"]
+RegisterModel.VIEW_EVENT_BINDING = EventConfig["PETINFO"]
 
-function RegisterImplent:ctor()
+function RegisterModel:ctor()
 	
 end
 
-return RegisterImplent
+return RegisterModel
