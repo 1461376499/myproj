@@ -10,18 +10,16 @@ end
 --@param1:UIDefine里定义的名字
 --@param2:要传入的数据
 function CommonHelper:addUIModal(uiDef, args)
-	local ui = require(uiDef.script).new()
-	ui:initialization(uiDef, args)
-	ui:addToNode()
-	ui:show()
-	return ui
+	local modal = require(uiDef.script).new(uiDef, args)
+	modal:addToNode()
+	modal:show()
+	return modal
 end
 
 --添加一个普通UI
 --@param1:UIDefine里定义的名字
 function CommonHelper:addUI(uiDef, args, parent, zorder)
-	local ui = require(uiDef.script).new()
-	ui:initialization(uiDef, args)
+	local ui = require(uiDef.script).new(uiDef, args)
 	if parent then
 		ui:addTo(parent)
 	end

@@ -4,7 +4,6 @@ local LoginLayer = class("LoginLayer", BaseUI)
 
 
 function LoginLayer:init()
-	print("LoginLayer:init")
 	self.aniamtionIdx = 1
 	self.aniamtions = {"shengli_in","shengli_in2", "shengli_out", "shibai_in", "shibai_out"  }
 	self:initUI()
@@ -74,7 +73,6 @@ end
 
 function LoginLayer:onEvent(key, data)
 	print("收到了事件LoginLayer",key, data)
-	return true
 end
 
 return LoginLayer

@@ -4,20 +4,27 @@ local CommonUIDialog = require("app.Core.Common.CommonUIDialog")
 
 local BaseUI = class("BaseUI", cc.Layer)
 
-function BaseUI:ctor()
-
+function BaseUI:ctor(uidef, args)	
+	self.name = self.__cname
+	print("BaseUI:ctor",self.name)
+	self:setName(self.name)
+	
+	self:initialization(uidef, args)
 end
 
 
 function BaseUI:onEnter()
-	print("BaseUI:onEnter")
+	print("BaseUI:onEnter", self.name)
+	if not self._isDialog and self.openCallback then	
+		self.willOpenCallback()
+	end
 end
 
 function BaseUI:onEnterTransitionFinish()
 	--UI打开后的调用
-	print("BaseUI:onEnterTransitionFinish")
-	if self.openCallback then	
-		self.openCallback()
+	print("BaseUI:onEnterTransitionFinish", self.name)
+	if not self._isDialog and self.openCallback then	
+		self.openedCallback()
 	end
 end
 
@@ -42,7 +49,7 @@ end
 
 --请重写
 function BaseUI:init()
-	print("BaseUI:init")
+	
 end
 
 --请重写/初始化UI
@@ -57,26 +64,27 @@ end
 
 --多态函数/初始化数据完成
 function BaseUI:initFinish()
-	print("BaseUI:initFinish")
+	
 end
 
 --即将退出
 function BaseUI:onExit()
-	
+	print("BaseUI:onExit", self.name)	
 	self:destory()
 end
 
---多态函数/销毁UI
+--多态函数
 function BaseUI:destory()
 	
 end
 
---清理界面
-function BaseUI:onCleanup()
-	UICacheManager:free(self.widget)
-	self:_destory()
-	self:disableNodeEvents()
+--清理界面之后
+function BaseUI:onCleanup()	
+	print("BaseUI:onCleanup", self.name)
 	EventDispatcher:removeListener(self)
+	self:disableNodeEvents()
+	UICacheManager:free(self.widget)
+	self:_destory()	
 end
 
 --注册自定义事件
@@ -104,11 +112,31 @@ function BaseUI:close()
 end
 
 --打开UI回调
-function BaseUI:setOpenCallback(cb)
+function BaseUI:setWillOpenCallback(cb)
 	if self.dialogLayer then
-		self.dialogLayer:setOpenCallback(cb)
+		self.dialogLayer:setWillOpenCallback(cb)
 	else
-		self.openCallback = cb
+		self.willOpenCallback = cb
+	end
+	return self
+end
+
+--打开UI回调
+function BaseUI:setOpenedCallback(cb)
+	if self.dialogLayer then
+		self.dialogLayer:setOpenedCallback(cb)
+	else
+		self.openedCallback = cb
+	end
+	return self
+end
+
+--关闭UI回调
+function BaseUI:setWillCloseCallback(cb)
+	if self.dialogLayer then
+		self.dialogLayer:setWillCloseCallback(cb)
+	else
+		self.willCloseCallback = cb
 	end
 	return self
 end
@@ -122,6 +150,7 @@ function BaseUI:setClosedCallback(cb)
 	end
 	return self
 end
+
 
 --添加到节点 弹窗类型的layer
 function BaseUI:addToNode(toNode)

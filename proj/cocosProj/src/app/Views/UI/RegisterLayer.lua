@@ -14,8 +14,9 @@ function RegisterLayer:initUI()
 			CommonHelper:showOkPopup("system msg",
 				"congratulation you get a equipment",
 				function()
+					print("点击了确定")
 					EventDispatcher:broadcastEvent("keykey", "你好")
-					SceneManager:popScene()
+--					SceneManager:popScene()
 					
 				end,
 				false, 
@@ -26,7 +27,6 @@ end
 
 function RegisterLayer:onEvent(key, data)
 	print("收到了事件RegisterLayer",key, data)
-	return true
 end
 
 return RegisterLayer

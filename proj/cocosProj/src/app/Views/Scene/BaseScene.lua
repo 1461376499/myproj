@@ -22,7 +22,7 @@ function BaseScene:onEnterTransitionFinish()
 
 end
 
---
+--不在onExit做任何处理
 function BaseScene:onExit()
 	
 end

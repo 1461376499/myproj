@@ -1,14 +1,14 @@
 local EventDispatcher = EventDispatcher or {}
 
 function EventDispatcher:init()
-	--观察者容器--所有baseUI容器
-	self.m_UIContainer = {}
+	--所有baseUI容器
+	self.uiMap = {}
 
-	--动态引用计数，每添加一个UI组件都会分配一个唯一值
-	self.uiRefernceIndex = 1
+	--动态索引，每添加一个ui组件唯一值
+	self.uiIndex = 1
 end
 
---发送订阅的自定义事件/接收者只有一个
+--发送订阅事件
 function EventDispatcher:dispatchEvent(events,  sub,  data)
 	local customEvent = cc.EventCustom:new(events["KEY"])
 	customEvent["_userData"] = {
@@ -21,36 +21,36 @@ end
 --注册广播监听观察者
 --参数:baseUI组件
 function EventDispatcher:registerListener(target)	
-	target.uiRefernceIndex = self.uiRefernceIndex
-	table.insert(self.m_UIContainer, target)
+	target.uiIndex = self.uiIndex
+	table.insert(self.uiMap, target)
 
-	self.uiRefernceIndex = self.uiRefernceIndex + 1
+	self.uiIndex = self.uiIndex + 1
+	print("注册广播",#self.uiMap)
 end
 
---移除广播监听观察者
+--移除监听者
 function EventDispatcher:removeListener(target)
-	for j = #self.m_UIContainer, 1, -1 do
-		local layer = self.m_UIContainer[j]
-		if layer.uiRefernceIndex == target.uiRefernceIndex then
-			table.remove(self.m_UIContainer, j)
+	for j = #self.uiMap, 1, -1 do
+		local layer = self.uiMap[j]
+		if layer.uiIndex == target.uiIndex then
+			table.remove(self.uiMap, j)
 		end
 	end
-	print("#self.m_UIContainer == ",#self.m_UIContainer)
 end
 
---广播一条消息/接收者是所有BaseUI组件
+--广播消息
 function EventDispatcher:broadcastEvent(key, data)
 	self:_broadcastEvent(key, data)
 end
 
---广播一条消息(内部函数)
+--广播消息(内部函数)
 function EventDispatcher:_broadcastEvent(key, data)
 	--让后添加的监听器先接收事件
-	print("#self.m_UIContainer == ",#self.m_UIContainer)
-	for j = #self.m_UIContainer, 1, -1 do
-		local element = self.m_UIContainer[j]
-		if element and element.ui and element.ui.onEvent then
-			if not element.ui:onEvent(key, data) then	--不在继续分发事件
+	for j = #self.uiMap, 1, -1 do
+		local ui = self.uiMap[j]
+		if ui and ui.onEvent then
+			--通过返回值设置不在继续分发事件
+			if ui:onEvent(key, data) then	
 				break;
 			end
 		end

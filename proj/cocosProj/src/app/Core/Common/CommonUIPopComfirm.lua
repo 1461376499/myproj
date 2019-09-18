@@ -13,7 +13,7 @@ CommonUIPopComfirm.ShowStyle = {
 --初始化
 function CommonUIPopComfirm:init()
 	--点击空白区就关闭
-	self._tapBlankClose = true	
+	self._tapBlankClose = false	
 
 	--样式	
 	self._style = CommonUIPopComfirm.ShowStyle.YesNo
@@ -26,6 +26,7 @@ function CommonUIPopComfirm:init()
 
 	self:initUI()
 	self:initData()
+
 end
 
 --初始化UI及点击事件
@@ -44,6 +45,7 @@ function CommonUIPopComfirm:initUI()
 			if self.okCallback then
 				self.okCallback()
 				self.okCallback = nil
+				self:close()
 			end
 		end)
 	self.btn_no = widget:getChildByName("btn_no")
@@ -51,6 +53,7 @@ function CommonUIPopComfirm:initUI()
 			if self.noCallback then
 				self.noCallback()
 				self.noCallback = nil
+				self:close()
 			end
 		end)
 	self.btn_yes = widget:getChildByName("btn_yes")
@@ -58,6 +61,7 @@ function CommonUIPopComfirm:initUI()
 			if self.yesCallback then
 				self.yesCallback()
 				self.yesCallback = nil
+				self:close()
 			end
 		end)
 	
@@ -66,6 +70,7 @@ function CommonUIPopComfirm:initUI()
 
 	self.btn_close = widget:getChildByName("btn_close")
 	self.btn_close:addClickEventListener(handler(self, self.close))
+
 end
 
 --初始化数据
