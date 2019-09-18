@@ -1,28 +1,36 @@
 --region *.lua
 --Date
 --此文件由[BabeLua]插件自动生成
-local GameMusicHelper = class("GameMusicHelper")
+local MusicManager = class("MusicManager")
 if nil == ccexp.AudioEngine then
     return
 end
 local AudioEngine = ccexp.AudioEngine
 --local AudioEngine = cc.SimpleAudioEngine:getInstance()
 local M = {
-    bgmSound     = {},
+    bgmMusic     = {},
     effectSounds = {}
 }
-function GameMusicHelper:ctor()
+function MusicManager:ctor()
+	self.volume = 0.3
 end
 
-function GameMusicHelper:playMusic()  --播放背景音乐
+function MusicManager:setVolume(volume)
+	self.volume = volume
+	for k,v in pairs(M.bgmMusic) do
+        AudioEngine:setVolume(v["id"], volume)
+    end
+end
+
+function MusicManager:playMusic()  --播放背景音乐
     local musicKey = GameBGMHelper:getMusicKey()
     if self:getMusicState() then
         self:pauseAllMusic(musicKey)
 
-        if M.bgmSound[musicKey] then
-            self:resumMusic(musicKey)
+        if M.bgmMusic[musicKey] then
+            self:resumeMusic(musicKey)
         else
-            M.bgmSound[musicKey] = {
+            M.bgmMusic[musicKey] = {
                 id  = AudioEngine:play2d(string.format("sfx/%s.mp3", self:getMusicName(musicKey)), true, 0.3),
                 key = musicKey
             }
@@ -33,14 +41,14 @@ function GameMusicHelper:playMusic()  --播放背景音乐
     end
 end
 
-function GameMusicHelper:resumMusic(key)
-    AudioEngine:setVolume(M.bgmSound[key]["id"],0.3)
-    AudioEngine:resume(M.bgmSound[key]["id"])
+function MusicManager:resumeMusic(key)
+    AudioEngine:setVolume(M.bgmMusic[key]["id"], self.volume)
+    AudioEngine:resume(M.bgmMusic[key]["id"])
 end
 
 --暂停背景音乐
-function GameMusicHelper:pauseAllMusic(ignoreKey)
-    for k,v in pairs(M.bgmSound) do
+function MusicManager:pauseAllMusic(ignoreKey)
+    for k,v in pairs(M.bgmMusic) do
         if ignoreKey ~= k then
             AudioEngine:setVolume(v["id"],0)
             AudioEngine:pause(v["id"])
@@ -49,29 +57,29 @@ function GameMusicHelper:pauseAllMusic(ignoreKey)
 end
 
 --删除背景音乐
-function GameMusicHelper:delAllMusic()
-    for k,v in pairs(M.bgmSound) do
+function MusicManager:delAllMusic()
+    for k,v in pairs(M.bgmMusic) do
         AudioEngine:setVolume(v["id"],0)
         AudioEngine:setLoop(v["id"],false)
     end
-    M.bgmSound = {}
+    M.bgmMusic = {}
 end
 
 --暂停音效
-function GameMusicHelper:pauseAllEffect()
+function MusicManager:pauseAllEffect()
     for k,v in pairs(M.effectSounds) do
         AudioEngine:pause(v["id"])
     end
 end
 
 --恢复音效
-function GameMusicHelper:resumeAllEffect()
+function MusicManager:resumeAllEffect()
     for k,v in pairs(M.effectSounds) do
         AudioEngine:resume(v["id"])
     end
 end
 
-function GameMusicHelper:playEffect(effectKey, isLoop)    --播放音效
+function MusicManager:playEffect(effectKey, isLoop)    --播放音效
 
     isLoop = isLoop or false
 
@@ -88,21 +96,21 @@ function GameMusicHelper:playEffect(effectKey, isLoop)    --播放音效
     end
 end
 
-function GameMusicHelper:changeEffectStop(effectKey)
+function MusicManager:changeEffectStop(effectKey)
     if M.effectSounds[effectKey] ~= nil then        
         AudioEngine:setVolume(M.effectSounds[effectKey]["id"],0)
         AudioEngine:setLoop(M.effectSounds[effectKey]["id"],false)
     end
 end
 
-function GameMusicHelper:effectPlaying(effectKey)
+function MusicManager:effectPlaying(effectKey)
     if M.effectSounds[effectKey] ~= nil then
         return true
     end
     return false
 end
 
-function GameMusicHelper:getMusicName(key)
+function MusicManager:getMusicName(key)
     local config  = DataConfig.Music.getData(key)
 
     if config ~= nil then
@@ -113,11 +121,11 @@ function GameMusicHelper:getMusicName(key)
     end
 end
 
-function GameMusicHelper:getMusicFilePath(key)
+function MusicManager:getMusicFilePath(key)
     return string.format( "sfx/%s.mp3", self:getMusicName(key))
 end
 
-function GameMusicHelper:changeMusicState(state)
+function MusicManager:changeMusicState(state)
 
     cc.UserDefault:getInstance():setBoolForKey("isPlayBackgroundMusic", state)
 
@@ -128,7 +136,7 @@ function GameMusicHelper:changeMusicState(state)
     end
 end
 
-function GameMusicHelper:changeEffectState(state)
+function MusicManager:changeEffectState(state)
 
     cc.UserDefault:getInstance():setBoolForKey("isPlayEffectMusic", state)
 
@@ -141,15 +149,15 @@ function GameMusicHelper:changeEffectState(state)
     end
 end
 
-function GameMusicHelper:getMusicState()
+function MusicManager:getMusicState()
     return cc.UserDefault:getInstance():getBoolForKey("isPlayBackgroundMusic", true)
 end
 
-function GameMusicHelper:getEffectState()
+function MusicManager:getEffectState()
     return cc.UserDefault:getInstance():getBoolForKey("isPlayEffectMusic", true)
 end
 
-function GameMusicHelper:getMusicKey()
+function MusicManager:getMusicKey()
     local key = "Music1"
 
     if sceneManager:isFightScene() then  --非挂机战斗场景
@@ -168,7 +176,7 @@ function GameMusicHelper:getMusicKey()
     return key
 end
 
-return GameMusicHelper
+return MusicManager
 
 
 

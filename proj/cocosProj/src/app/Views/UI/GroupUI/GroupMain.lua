@@ -7,8 +7,7 @@ local GroupMain = class("GroupMain", BaseUI)
 
 function GroupMain:ctor()
 	self:initBase()
-	local csb =  "layer/general/confirmpop_layer.csb"
-	self:loadCsb(csb)
+	self:loadCsb("layer/general/confirmpop_layer.csb")
 	local widget = self.widget:getChildByName("widget")
 	self.btn_close = widget:getChildByName("btn_close")
 	self.btn_close:addClickEventListener(handler(self, self.close))
