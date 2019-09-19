@@ -19,23 +19,23 @@ function UICacheManager:put(key, count)
 end
 
 function UICacheManager:get(key, parent)
-	local ret = self:_get(key)
-	if ret == nil then
+	local obj = self:_get(key)
+	if obj == nil then
 		self:put(key)
-		ret = self:_get(key)
+		obj = self:_get(key)
 	end	
-	if ret then
-		ret:addTo(parent)
+	if obj then
+		obj:addTo(parent)
 
 		--put的时候retain了
-		ret:release()
+		obj:release()
 	end
-	return ret;
+	
+	return obj;
 end
 
 --回收
-function UICacheManager:free(obj)
-	obj.inPool = false
+function UICacheManager:free(obj)	
 	self:_put(obj)
 end
 
@@ -48,7 +48,10 @@ function UICacheManager:clear()
 end
 
 
---Internal Function-------------------------------------------------------------
+---------------------------Internal Function-----------------------------
+---------------------------Internal Function-----------------------------
+---------------------------Internal Function-----------------------------
+---------------------------Internal Function-----------------------------
 
 --[[
 	创建一个对象
@@ -83,22 +86,22 @@ end
 	return  获取到的对象
 ]]--
 function UICacheManager:_get(key)
-	local retObj, index;
+	local obj, i;
 
-	for i, obj in ipairs(self.M) do
-		if obj.inPool and key == obj.poolKey then
-			retObj = obj
-			index = i
+	for k, v in pairs(self.M) do
+		if v.inPool and key == v.poolKey then
+			obj = v
+			i = k
 			break;
 		end
 	end
 
-	if retObj then
-		table.remove(self.M, index)
-		retObj.inPool = false
+	if obj then
+		table.remove(self.M, i)
+		obj.inPool = false
 	end
 
-	return retObj;
+	return obj;
 end
 
 
