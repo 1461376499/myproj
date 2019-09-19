@@ -26,16 +26,17 @@ function BaseUI:ctor(uidef, args)
 	self:initFinish()
 end
 
-
 function BaseUI:onEnter()
-	if not self._isDialog and self.openCallback then	
-		self.willOpenCallback()
+	if not self._isDialog and self.willOpenCallback then	
+		self:willOpenCallback()
+		self.willOpenCallback = nil
 	end
 end
 
 function BaseUI:onEnterTransitionFinish()
-	if not self._isDialog and self.openCallback then	
-		self.openedCallback()
+	if not self._isDialog and self.openedCallback then	
+		self:openedCallback()
+		self.willOpenCallback = nil
 	end
 end
 
@@ -157,7 +158,6 @@ function BaseUI:setClosedCallback(cb)
 	return self
 end
 
-
 --添加到节点 弹窗类型的layer
 function BaseUI:addToNode(toNode)
 	local dialog = CommonUIDialog.new(self)
@@ -191,8 +191,7 @@ end
 -----------------------------------internal function ---------------------------------------------
 -----------------------------------internal function ---------------------------------------------
 --初始化通用属性
-function BaseUI:_initBase()
-	
+function BaseUI:_initBase()	
 	--自定义事件列表
 	self.customEventArray = {}
 
@@ -244,8 +243,7 @@ function BaseUI:_destoryModel()
 end
 
 --销毁界面
-function BaseUI:_destory()
-	
+function BaseUI:_destory()	
 	--移除监听
 	if self.customEventListener then
 		self:getEventDispatcher():removeEventListener(self.customEventListener)

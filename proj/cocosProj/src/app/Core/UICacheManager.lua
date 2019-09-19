@@ -87,7 +87,6 @@ end
 ]]--
 function UICacheManager:_get(key)
 	local obj, i;
-
 	for k, v in pairs(self.M) do
 		if v.inPool and key == v.poolKey then
 			obj = v

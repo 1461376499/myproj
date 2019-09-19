@@ -11,6 +11,7 @@ function GroupMain:ctor()
 	local widget = self.widget:getChildByName("widget")
 	self.btn_close = widget:getChildByName("btn_close")
 	self.btn_close:addClickEventListener(handler(self, self.close))
+	UICacheManager:put("layer/bangzhu.csb", 5)
 end
 
 return GroupMain

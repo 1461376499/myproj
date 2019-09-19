@@ -60,11 +60,11 @@ function LoginLayer:initUI()
 --	self.pvpSpine:setAnimation(0,animations[1],false)
 --	self.pvpSpine:setPosition(0,300)
 
---	local groupUI = require("app.views.ui.GroupUI.GroupMain").new()
---	groupUI:addTo(self)
---	groupUI:setWillCloseCallback(function()
---		print("即将关闭groupUI")
---	end)
+	local groupUI = require("app.views.ui.GroupUI.GroupMain").new()
+	groupUI:addTo(self)
+	groupUI:setWillCloseCallback(function()
+		print("即将关闭groupUI")
+	end)
 end
 
 
