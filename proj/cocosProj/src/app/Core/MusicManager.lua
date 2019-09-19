@@ -23,16 +23,16 @@ function MusicManager:setVolume(volume)
 end
 
 function MusicManager:playMusic()  --播放背景音乐
-    local musicKey = GameBGMHelper:getMusicKey()
-    if self:getMusicState() then
+    local musicKey = self:getMusicKey()
+    if self:getMusicEnabled() then
         self:pauseAllMusic(musicKey)
 
         if M.bgmMusic[musicKey] then
             self:resumeMusic(musicKey)
         else
             M.bgmMusic[musicKey] = {
-                id  = AudioEngine:play2d(string.format("sfx/%s.mp3", self:getMusicName(musicKey)), true, 0.3),
-                key = musicKey
+                id  = AudioEngine:play2d(string.format("sfx/%s.mp3", self:getMusicName(musicKey)), true, self.volume),
+                musicKey = musicKey
             }
             print("music test")
             print(self:getMusicName(musicKey))
@@ -68,6 +68,7 @@ end
 --暂停音效
 function MusicManager:pauseAllEffect()
     for k,v in pairs(M.effectSounds) do
+		AudioEngine:setVolume(v["id"],0)
         AudioEngine:pause(v["id"])
     end
 end
@@ -75,6 +76,7 @@ end
 --恢复音效
 function MusicManager:resumeAllEffect()
     for k,v in pairs(M.effectSounds) do
+		AudioEngine:setVolume(v["id"], self.volume)
         AudioEngine:resume(v["id"])
     end
 end
@@ -83,10 +85,10 @@ function MusicManager:playEffect(effectKey, isLoop)    --播放音效
 
     isLoop = isLoop or false
 
-    if effectKey and effectKey ~= "" and self:getEffectState() then
+    if effectKey and effectKey ~= "" and self:getEffectEnabled() then
         M.effectSounds[effectKey] = {
             id  = AudioEngine:play2d(string.format("sfx/%s.mp3", self:getMusicName(effectKey)), isLoop),
-            key = effectKey
+            effectKey = effectKey
         }
         AudioEngine:setFinishCallback(M.effectSounds[effectKey]["id"], function(id, file)
             if M.effectSounds[effectKey] and M.effectSounds[effectKey]["id"] == id then
@@ -143,35 +145,35 @@ function MusicManager:changeEffectState(state)
     if state then
         self:playEffect("JZ_AN_DJ")
     else
-        for k,v in pairs(M.effectSounds) do
-            self:changeEffectStop(k)
+        for id, effectsKey in pairs(M.effectSounds) do
+            self:changeEffectStop(id)
         end
     end
 end
 
-function MusicManager:getMusicState()
+function MusicManager:getMusicEnabled()
     return cc.UserDefault:getInstance():getBoolForKey("isPlayBackgroundMusic", true)
 end
 
-function MusicManager:getEffectState()
+function MusicManager:getEffectEnabled()
     return cc.UserDefault:getInstance():getBoolForKey("isPlayEffectMusic", true)
 end
 
 function MusicManager:getMusicKey()
     local key = "Music1"
 
-    if sceneManager:isFightScene() then  --非挂机战斗场景
-        key = "MusicBs"
-    elseif sceneManager:isIdleScene() then
-        local idleScene = sceneManager:getRunningScene()
-        if idleScene._fighting_Layer and idleScene._fighting_Layer:isVisible() then  --挂机战斗
-            key = "Music1"
-        elseif idleScene._castle_Layer and idleScene._castle_Layer:isVisible() then --城堡
-            key = "MusicCB"
-        elseif idleScene._gonghui_Layer and idleScene._gonghui_Layer:isVisible()  then --工会
-            key = "MusicGH"
-        end
-    end
+--    if sceneManager:isFightScene() then  --非挂机战斗场景
+--        key = "MusicBs"
+--    elseif sceneManager:isIdleScene() then
+--        local idleScene = sceneManager:getRunningScene()
+--        if idleScene._fighting_Layer and idleScene._fighting_Layer:isVisible() then  --挂机战斗
+--            key = "Music1"
+--        elseif idleScene._castle_Layer and idleScene._castle_Layer:isVisible() then --城堡
+--            key = "MusicCB"
+--        elseif idleScene._gonghui_Layer and idleScene._gonghui_Layer:isVisible()  then --工会
+--            key = "MusicGH"
+--        end
+--    end
 
     return key
 end

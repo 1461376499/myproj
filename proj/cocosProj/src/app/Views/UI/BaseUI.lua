@@ -15,7 +15,7 @@ function BaseUI:ctor(uidef, args)
 	end
 	self._isDialog = false	--是否是弹窗
 
-	self.uidef = uidef
+	self._uidef = uidef
 
 	self:_initBase()
 	self:_loadCsb()
@@ -36,13 +36,11 @@ end
 function BaseUI:onEnterTransitionFinish()
 	if not self._isDialog and self.openedCallback then	
 		self:openedCallback()
-		self.willOpenCallback = nil
+		self.openedCallback = nil
 	end
 end
 
 --初始化
---@prama1 uidef
---@prama2 其他参数
 function BaseUI:initBase()
 	self:_initBase()
 	self:_addEventDef()
@@ -210,16 +208,16 @@ end
 
 --加载实例
 function BaseUI:_bindModel()
-	local model = self.uidef.model
+	local model = self._uidef.model
 	if model == nil or model == "" then
 		return
 	end
-	self.Model = require(self.uidef.model).new()
+	self.Model = require(self._uidef.model).new()
 end
 
 --加载csb文件
 function BaseUI:_loadCsb(csb)
-	local csb = csb or self.uidef.csb
+	local csb = csb or self._uidef.csb
 	if csb == "" then
 		return;
 	end

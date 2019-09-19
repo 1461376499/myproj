@@ -13,7 +13,7 @@ end
 
 function GameSceneLogin:onEnterTransitionFinish()
 	--开始播放音乐
-	AudioEngine.playMusic("music/Music1.mp3", true)
+	MusicManager:playMusic()
 
 	--开始第三方登录
 	LoginManager:start3rdLogin(handler(self, self.login3rdResult))
@@ -36,7 +36,7 @@ function GameSceneLogin:loadWidget()
 --	self.pvpSpine:addTo(btn:getRendererNormal())
 ----	self.pvpSpine:setAnimation(0,animations[1],false)
 --	self.pvpSpine:setPosition(0,0)
-
+	
 end
 
 --第三方登录结果
