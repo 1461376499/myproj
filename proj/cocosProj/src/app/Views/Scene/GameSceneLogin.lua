@@ -24,8 +24,8 @@ function GameSceneLogin:loadWidget()
 		:move(display.cx, display.cy + 400)
 		:addTo(self)
 
-	self.loginLayer = CommonHelper:addUIModal(UIDefine.LoginLayer)
-		:setClosedCallback(function() print("关闭了界面",self.loginLayer.name)  end )
+	self.loginLayer = CommonHelper:addPopupWindow(UIDefine.LoginLayer)
+		:setAfterCloseCallback(function() print("关闭了界面",self.loginLayer.name)  end )
 		:setWillCloseCallback(function() print("即将关闭界面", self.loginLayer.name)  end )
 
 	local btn = ccui.Button:create("update/login_btn_account.png","")

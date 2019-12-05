@@ -1,6 +1,6 @@
 --code by zpc
-SceneManager		= require("app.Core.SceneManager").new()
-LoginManager = require("app.Core.LoginManager").new()
+SceneManager		= require("app.Controller.SceneManager").new()
+LoginManager = require("app.Controller.LoginManager").new()
 
 local LuaClass = class("LuaClass", cc.Scene)
 

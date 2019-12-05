@@ -9,7 +9,6 @@ package.path = package.path .. ";src/"
 cc.FileUtils:getInstance():setPopupNotify(false)
 
 g_NeedHotUpdate = false
-
 if device.platform == "android" or device.platform == "ios" then
 	g_NeedHotUpdate = true
 	ccFileUtils:addSearchPath(ccFileUtils:getWritablePath() .. "update/", true)

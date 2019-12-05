@@ -1,6 +1,6 @@
 --code by ZPC 2019/07/15
 
-local CommonUIDialog = require("app.Core.Common.CommonUIDialog")
+local CommonUIDialog = require("app.Controller.Common.CommonUIDialog")
 
 local BaseUI = class("BaseUI", cc.Layer)
 
@@ -10,7 +10,7 @@ function BaseUI:ctor(uidef, args)
 	print("BaseUI:ctor",self.name)
 
 	if uidef == nil then
-		print("配置有误",self.name)
+		assert(false, "配置有误:"..self.name)
 		return;
 	end
 	self._isDialog = false	--是否是弹窗
@@ -34,9 +34,9 @@ function BaseUI:onEnter()
 end
 
 function BaseUI:onEnterTransitionFinish()
-	if not self._isDialog and self.openedCallback then	
-		self:openedCallback()
-		self.openedCallback = nil
+	if not self._isDialog and self.afterOpenCallback then	
+		self:afterOpenCallback()
+		self.afterOpenCallback = nil
 	end
 end
 
@@ -90,9 +90,9 @@ function BaseUI:onCleanup()
 
 	self:_destory()
 
-	if not self._isDialog and self.closedCallback then
-		self:closedCallback()
-		self.closedCallback = nil
+	if not self._isDialog and self.afterCloseCallback then
+		self:afterCloseCallback()
+		self.afterCloseCallback = nil
 	end	
 end
 
@@ -127,11 +127,11 @@ function BaseUI:setWillOpenCallback(cb)
 end
 
 --打开UI后回调
-function BaseUI:setOpenedCallback(cb)
+function BaseUI:setAfterOpenCallback(cb)
 	if self.dialogLayer then
-		self.dialogLayer:setOpenedCallback(cb)
+		self.dialogLayer:setAfterOpenCallback(cb)
 	else
-		self.openedCallback = cb
+		self.afterOpenCallback = cb
 	end
 	return self
 end
@@ -147,11 +147,11 @@ function BaseUI:setWillCloseCallback(cb)
 end
 
 --关闭UI后回调
-function BaseUI:setClosedCallback(cb)
+function BaseUI:setAfterCloseCallback(cb)
 	if self.dialogLayer then
-		self.dialogLayer:setClosedCallback(cb)
+		self.dialogLayer:setAfterCloseCallback(cb)
 	else
-		self.closedCallback = cb
+		self.afterCloseCallback = cb
 	end
 	return self
 end
@@ -223,6 +223,8 @@ function BaseUI:_loadCsb(csb)
 	end
 	--不直接加载csb文件了,用下面加载并缓存csb
 	--local widget = CommonHelper:loadWidget(csb)
+    local searchPath = ccFileUtils:getSearchPaths()
+    dump(searchPath)
 	local widget = UICacheManager:get(csb,self)
 		--:addTo(self)
 		:setAnchorPoint(ccAchorPointCenter)

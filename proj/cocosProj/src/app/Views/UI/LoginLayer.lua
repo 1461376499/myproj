@@ -24,7 +24,7 @@ function LoginLayer:initUI()
 	self.panel_password = self.widget:getChildByName("panel_password")
 	self.panel_password.button = self.panel_password:getChildByName("button")
 	self.panel_password.button:addClickEventListener(function()
---		CommonHelper:addUIModal(UIDefine.RegisterLayer)
+--		CommonHelper:addPopupWindow(UIDefine.RegisterLayer)
 --		CommonHelper:shader_Default(self)
 		SceneManager:pushScene("GameSceneBattle")
 --		self.pvpSpine:setAnimation(0, self.aniamtions[self.aniamtionIdx], false)
@@ -77,6 +77,10 @@ end
 
 function LoginLayer:onEvent(key, data)
 	print("收到了事件LoginLayer",key, data)
+end
+
+function LoginLayer:afterOpenCallback(key, data)
+	print("afterOpenCallback",key, data)
 end
 
 return LoginLayer

@@ -97,8 +97,8 @@ function CommonUIDialog:doShowAnimation(showType)
 	self:setVisible(true)
 	local function cb()
 		self.topSheildLayer:setVisible(false)
-		if self.openedCallback and self.uiNode._isDialog then
-			self.openedCallback()
+		if self.afterOpenCallback and self.uiNode._isDialog then
+			self.afterOpenCallback()
 		end
 	end
 	local originScale = self.uiNode.originScale
@@ -123,10 +123,10 @@ function CommonUIDialog:doCloseAnimation(showType)
 	end
 	
 	--关闭后的回调
-	local function closedCallback()		
-		if self.closedCallback then
-			self.closedCallback()
-			self.closedCallback = nil
+	local function afterCloseCallback()		
+		if self.afterCloseCallback then
+			self.afterCloseCallback()
+			self.afterCloseCallback = nil
 		end
 		PopWindowManager:remove()
 		self:runAction(cc.RemoveSelf:create())
@@ -140,7 +140,7 @@ function CommonUIDialog:doCloseAnimation(showType)
 				cc.EaseBackIn:create(cc.ScaleTo:create(0.2, 0.85))
 				),
 			cc.Hide:create(),
-			cc.CallFunc:create(closedCallback)
+			cc.CallFunc:create(afterCloseCallback)
 		))
 end
 
@@ -178,13 +178,13 @@ function CommonUIDialog:setWillOpenCallback(cb)
 end
 
 --打开弹窗后回调
-function CommonUIDialog:setOpenedCallback(cb)
-	self.openedCallback = cb
+function CommonUIDialog:setAfterOpenCallback(cb)
+	self.afterOpenCallback = cb
 end
 
 --关闭弹窗后回调
-function CommonUIDialog:setClosedCallback(cb)
-	self.closedCallback = cb
+function CommonUIDialog:setAfterCloseCallback(cb)
+	self.afterCloseCallback = cb
 end
 --关闭弹窗前回调
 function CommonUIDialog:setWillCloseCallback(cb)

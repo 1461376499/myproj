@@ -7,20 +7,20 @@ local Png = ".png"
 local proloadingList = {
 	function()
 		--json.encode_sparse_array(true)		//这是cjson里的极度稀疏数组,cjson.encode({[11] = "data"})，将输出:{"1000":"data"},  json.encode({[11] = "data"})，将输出:[null,null,null,null,null,null,null,null,null,null,"data"]
-		GlobalConfig	= require("app.Core.GlobalConfig")
-		EventConfig		= require("app.Core.EventConfig")
+		GlobalConfig	= require("app.Controller.GlobalConfig")
+		EventConfig		= require("app.Controller.EventConfig")
 	end,
 	function()
-		EventDispatcher = require("app.Core.EventDispatcher")
-		UIDefine		= require("app.Core.UIDefine")
+		EventDispatcher = require("app.Controller.EventDispatcher")
+		UIDefine		= require("app.Controller.UIDefine")
 	end,
 	function()
 		DataConfig		= require("app.DataConfig.GameDataConfig")
-		CommonHelper	= require("app.Core.Common.CommonHelper").new()				
+		CommonHelper	= require("app.Controller.Common.CommonHelper").new()				
 	end,
 	function()
-		GameManager	= require("app.Core.GameManager")
-		ShaderManager	= require("app.Core.ShaderManager")
+		GameManager	= require("app.Controller.GameManager")
+		ShaderManager	= require("app.Controller.ShaderManager")
 	end,
 	function()
 		BaseUI			= require("app.Views.UI.BaseUI")
@@ -28,14 +28,14 @@ local proloadingList = {
 		BaseModel		= require("app.Model.BaseModel").new()
 	end,
 	function()	
-		SpineManager	= require("app.Core.SpineManager").new()
+		SpineManager	= require("app.Controller.SpineManager").new()
 	end,
 	function()
-		PopWindowManager= require("app.Core.PopWindowManager").new()
-		MusicManager	= require("app.Core.MusicManager").new()
+		PopWindowManager= require("app.Controller.PopWindowManager").new()
+		MusicManager	= require("app.Controller.MusicManager").new()
 	end,
 	function()
-		UICacheManager	= require("app.Core.UICacheManager").new()
+		UICacheManager	= require("app.Controller.UICacheManager").new()
 	end,
 }
 
